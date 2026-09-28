@@ -8,9 +8,11 @@
 - **Current testers:** Owner only
 - **Paid services activated:** None
 - **Automatic overage approved:** No
+- **Public standard GitHub runner compute:** Approved at $0
+- **Paid/larger GitHub runners or Actions cache:** Forbidden
 - **Permanent hosting provider chosen:** No
 
-Development continues through local tools and included GitHub usage only after checking the remaining allowance. Nothing paid is activated until the owner explicitly approves it at the time it is needed.
+Development continues through local tools and free standard GitHub-hosted runners after public visibility and workflow safeguards are verified. Nothing paid is activated until the owner explicitly approves it at the time it is needed.
 
 ## Preferred future online-test candidate: Railway Hobby
 
@@ -85,7 +87,7 @@ Without activating Railway, work can continue on:
 - Game and server code
 - Data and network-command design
 - Local/headless server checks in the development workspace
-- The owner-only offline technical-preview `.ipa`
+- The solo, owner-targeted offline technical-preview `.ipa`, published with a warning that its unsigned package is publicly downloadable
 - Touch movement and camera
 - Graybox world, interaction, combat input, and meditation input
 - Documentation, security boundaries, deployment templates, and cost estimates
@@ -96,18 +98,23 @@ The offline preview never counts as proof of online multiplayer, remote saving, 
 
 ### GitHub Actions
 
-Repository evidence:
+Repository and owner evidence:
 
-- The repository is private.
-- GitHub Actions is enabled but has zero runs and zero artifacts.
+- The owner-provided screenshot on September 28, 2026 shows GitHub Free, included usage covering the displayed metered usage, and no current payment due.
+- The repository's complete history passed a credential and private-PII scan before the public switch.
+- GitHub reports only one collaborator: the repository owner.
+- Actions is enabled, but the repository has zero workflow runs, zero artifacts, zero configured environments, and no committed workflow.
 - Default workflow-token access is read-only.
-- No workflow, run, artifact, or GitHub environment exists yet.
-- The integration received HTTP 403 when checking repository Actions secrets and deployment records, so those states are **unknown**, not assumed empty; the owner check must confirm there is nothing unrecognized.
-- The Kiro GitHub integration cannot read the owner's personal billing plan, payment state, current shared allowance, or budget; the billing API returned HTTP 403.
+- A September 28 API attempt to require only selected GitHub-owned, full-SHA-pinned actions returned HTTP 403; the future workflow must self-enforce exact full-SHA pins, and repository-level enforcement remains an optional owner UI hardening step.
+- The owner approved making the repository and its full history public so standard runner compute can remain $0.
 
-GitHub's [Actions billing guide](https://docs.github.com/en/billing/concepts/product-billing/github-actions) currently lists 2,000 monthly minutes and 500 MB shared artifact/package storage for GitHub Free, but the owner's plan is not assumed. It lists standard macOS runner overage at $0.062 per minute. GitHub's [budget guide](https://docs.github.com/en/billing/how-tos/set-up-budgets) says an Actions budget can stop metered usage, but also warns that a new budget does not cover usage from before the budget was created.
+GitHub's [Actions billing guide](https://docs.github.com/en/billing/concepts/product-billing/github-actions) says standard GitHub-hosted runner use is free for public repositories. It separately warns that larger runners are charged and that Actions artifact/cache storage follows allowances and metered storage rules.
 
-**Decision:** No GitHub workflow may run until the owner completes `docs/OWNER_ACTIONS_CHECK.md`, including account plan, total/current/remaining allowance, reset date, payment-method presence without details, hard-stop budget, and unrecognized deployment/access checks. Early workflows will be manual only, use standard runners, run one at a time, time out after 30 minutes, keep `.ipa` artifacts for three days, and stop rather than spend beyond included usage.
+**Decision:** After public visibility is verified, the first workflow may use only owner-authorized `workflow_dispatch` on the rolling standard `macos-latest` runner with its newest stable default Xcode; the owner may run it directly or explicitly ask the recognized Kiro integration to dispatch it. It cannot use automatic public triggers, beta/preview Xcode, larger runners, custom runner images, Actions cache, signing secrets, or paid services. It runs one build at a time with a 30-minute timeout.
+
+To avoid relying on Actions artifact storage, the workflow will publish the unsigned test `.ipa` as a clearly labeled public prerelease asset after the owner is warned that anyone can download it. GitHub's [release limits](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases) currently allow individual assets under 2 GiB and state no total release-size or bandwidth limit. Superseded technical previews should be deleted when no longer needed.
+
+If the repository becomes private again, all builds stop until private-repository usage and a hard $0 overage budget are rechecked. The recommended owner account-safety review remains in `docs/OWNER_ACTIONS_CHECK.md`, but it is not a compute-cost blocker for public standard runners.
 
 ### Railway current details
 

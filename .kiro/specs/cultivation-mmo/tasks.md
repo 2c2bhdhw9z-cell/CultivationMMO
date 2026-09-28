@@ -9,6 +9,7 @@
 #[[file:../../../docs/TECHNICAL_BASELINE.md]]
 #[[file:../../../docs/CONTROL_PLANE_INVENTORY.md]]
 #[[file:../../../docs/TEMPORARY_ASSET_LICENSES.md]]
+#[[file:../../../docs/PUBLIC_REPOSITORY.md]]
 #[[file:../../../docs/OWNER_ACTIONS_CHECK.md]]
 
 > All tasks are provisional. If the game direction changes, update the requirements and design before continuing implementation.
@@ -18,16 +19,17 @@
 A gameplay or service task cannot be checked off until its matching row in `docs/OWNER_OPERATIONS_SECURITY.md` has working owner inspection, diagnostics, configuration, safe repair/reset, phone UI, authorization, audit, and verification—or a written reason that one of those controls does not apply. Owner tools are built with each feature, not added after the game is finished.
 
 - [ ] 1. Record the technical and security baseline
-  - **Status:** Technical research and records are complete; the task remains open only for the private owner check in `docs/OWNER_ACTIONS_CHECK.md`.
-  - [x] Pin Godot 4.7.2, its official download digests, macos-15/Xcode 26.2, iOS/Metal settings, and the Linux headless path in `docs/TECHNICAL_BASELINE.md`.
+  - **Status:** Technical research and records are complete. The owner approved public visibility and supplied GitHub Free/no-payment-due evidence; Task 1 closes after the public switch and repository safeguards are verified.
+  - [x] Pin Godot 4.7.2 and its official download digests; select the rolling standard `macos-latest` runner with its newest stable Xcode (currently macOS 26/Xcode 26.6), iOS/Metal settings, and Linux headless path in `docs/TECHNICAL_BASELINE.md`.
   - [x] Compare secure WebSocket and ENet/UDP; choose WSS provisionally for the first two-to-ten-player Railway test and define the later Wi-Fi/cellular measurement.
   - [x] Keep every runtime host inactive at $0; retain Railway Hobby as the preferred later paid-test candidate without treating it as activation or a permanent choice.
   - [x] Record current official GitHub/Railway terms, the $0 work path, provisional cost estimate, documented caps and unknown dashboard limit floor, exit plan, and recheck rules in `docs/COST_DECISIONS.md`.
   - [x] Inventory every active, inactive, and planned external control plane plus owner-only access, machine identity, audit, revocation, cost, and deletion status in `docs/CONTROL_PLANE_INVENTORY.md`.
   - [x] Define numeric owner enrollment, passkey rotation, lost-phone recovery, test/live isolation, backup retention, audit, and maintenance defaults.
   - [x] Record that no external game-content asset is selected and establish the approval ledger in `docs/TEMPORARY_ASSET_LICENSES.md`.
-  - [ ] Owner confirms the GitHub account plan, total/current/remaining Actions allowance and reset date, payment-method presence (yes/no only), `$0` hard-stop budget, included-usage alerts, passkey, 2FA, safely stored recovery method, recognized repository/app access, and absence of unknown Actions secrets, variables, environments, deployment records, or connections—without sharing any secret or payment detail.
-  - Requirements: R1, R2, R12, R14, R16, R17, R19, R20, R21, R22
+  - [x] Owner's screenshot confirms GitHub Free, included usage covers the displayed metered usage, and no current payment is due; owner approved exposing the full clean history for free public standard-runner builds.
+  - [ ] Verify the repository is public, only the owner has write access, public-runner safeguards are current, and GitHub private vulnerability reporting is enabled.
+  - Requirements: R1, R2, R12, R14, R16, R17, R19, R20, R21, R22, R23
   - Dependencies: None
 
 - [ ] 2. Create the multi-part project skeleton
@@ -36,30 +38,32 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Add the privileged command registry, per-feature operations-matrix format, and independent audit interface before gameplay features.
   - Add plain setup documentation that does not assume the owner understands code.
   - Keep secrets, owner credentials, source maps, and developer UI out of committed or downloadable player artifacts.
-  - Requirements: R1, R2, R17, R20, R21
+  - Requirements: R1, R2, R17, R20, R21, R23
   - Dependencies: 1
 
 - [ ] 3. Prove the GitHub-to-iPhone build path
   - Add a reviewed cloud workflow that exports the Godot client on macOS and packages an `.ipa` artifact.
   - Build one locked player client for owner and tester use with no developer menu or local diagnostic overlay.
+  - Use only owner-authorized `workflow_dispatch` (directly or through the recognized Kiro integration after explicit instruction), the rolling standard `macos-latest` runner and its newest stable default Xcode, one-build concurrency, a 30-minute timeout, no Actions cache, no beta/preview Xcode, and no larger/custom runner.
+  - Publish the unsigned result as a clearly labeled public prerelease asset instead of an Actions artifact; anyone may download it.
   - Allow a clearly labeled zero-cost solo technical-preview mode that runs the same versioned authoritative gameplay commands in process; do not represent it as completed online play.
   - Build the protected owner-console shell separately; do not place its assets or routes inside the `.ipa` and do not activate hosted resources outside the approved cost boundary.
-  - For checkpoint 3.1, use the private owner-only GitHub Actions page as the temporary build control and audit view; full runtime owner controls remain an online-version requirement.
+  - For checkpoint 3.1, use the public GitHub Actions run page as the temporary build control and audit view; the owner authorizes each manual run directly or by explicitly instructing the recognized Kiro integration, all logs are public, and full runtime owner controls remain an online-version requirement.
   - Give artifacts clear environment, type, version, and commit names.
-  - Make failure logs understandable and obtain signing/deployment access only through short-lived or protected secrets.
+  - Make failure logs understandable; the zero-cost preview SHALL use no signing or deployment credential, while any future separately approved signed/online workflow must use short-lived or protected secrets.
   - Add owner inspection for builds, versions, failures, artifacts, and release compatibility, plus approved start/stop/rollback controls and audit.
-  - Add the root `THIRD_PARTY_NOTICES.md` and bundle the Godot copyright, MIT terms, and applicable official engine third-party notices in every distributed package, including the first private tester build.
+  - Add the root `THIRD_PARTY_NOTICES.md` and bundle the Godot copyright, MIT terms, and applicable official engine third-party notices in every distributed package, including the first public test build.
   - Perform the first ESign installation and non-owner artifact-inspection check before deeper gameplay.
-  - Requirements: R1, R19, R20, R21, R22
+  - Requirements: R1, R19, R20, R21, R22, R23
   - Dependencies: 2
   - [ ] 3.1 Produce the reachable zero-cost solo technical-preview checkpoint
     - Add a minimal app shell and settings needed by the preview.
     - Add an in-process authoritative command adapter behind the same versioned interface intended for the future hosted valley.
     - Add a reusable graybox area, third-person touch movement and camera, one interaction, one combat-input target, and one meditation input so the owner can judge basic feel.
     - Keep data local, label the entire build `Offline Technical Preview`, include no developer menu, and make no multiplayer, remote-save, or online-console claim.
-    - Build through the monitored included GitHub allowance, install through ESign, and stop before any charge.
+    - Build through a free public standard runner, publish the unsigned result as a public prerelease, install through ESign, and do not activate any paid service.
     - Treat this as an experimental checkpoint, not completion of the full gameplay, online, persistence, or owner-control requirements.
-    - Requirements: R1, R4, R5, R15, R16, R21, R22
+    - Requirements: R1, R4, R5, R15, R16, R21, R22, R23
     - Dependencies: 2; runs as the final checkpoint within Task 3
 
 - [ ] 4. Build the mobile app shell and settings
@@ -69,7 +73,7 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Send bounded build, configuration, crash, and performance diagnostics without exposing private preference data.
   - Add owner-console inspection for app versions, configuration definitions, errors, and diagnostics; player preferences remain player-controlled.
   - Verify no gesture, local flag, copied file, or modified setting reveals a developer menu or privilege.
-  - Requirements: R2, R7, R15, R16, R20, R21
+  - Requirements: R2, R7, R15, R16, R20, R21, R23
   - Dependencies: 2, 3
 
 - [ ] 5. Implement accounts, sole-owner identity, deployment, and persistence
@@ -215,20 +219,21 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Drive repeatable authorization checks from the privileged command registry for every identity, session, origin, replay, environment, target, downstream, recovery, race, and audit-failure case in `docs/OWNER_OPERATIONS_SECURITY.md`.
   - Assert unchanged state and correct audit records for every denial; block release on any failure.
   - Scan repository/history, `.ipa`, console bundle, services, containers, logs, backup metadata, and audit exports for secrets, dev UI, source maps, unsafe endpoints, and unintended authority.
-  - Requirements: R17, R19, R20, R21
+  - Requirements: R17, R19, R20, R21, R23
   - Dependencies: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
 
 - [ ] 20. Produce and manually verify the complete first `.ipa`
-  - Build the release-candidate player artifact through GitHub and install it through ESign.
-  - Confirm the artifact contains no developer menu or diagnostic overlay and protected console assets are unavailable before owner authentication.
-  - Use the owner console from the iPhone to complete every operations-matrix action relevant to the first slice.
+  - Build the release-candidate player artifact through a free standard public runner and publish the unsigned result as a public prerelease for ESign installation.
+  - Confirm the public workflow used only owner-authorized manual dispatch, rolling standard `macos-latest`, newest stable default Xcode, no beta/preview Xcode, no cache/larger runner/paid service, narrow permissions, clean public logs, and no Actions artifact storage.
+  - Confirm the `.ipa` contains no developer menu, diagnostic overlay, secret, or owner authority and that protected online-console assets remain unavailable before owner authentication.
+  - Use the separate owner console from the iPhone to complete every operations-matrix action relevant to the first online slice.
   - Confirm service/database health, audit integrity, external-control inventory, backup/test restore, compliance with the currently owner-approved hard budget cap, cost alert, revoke-all, maintenance repair, deployment, and rollback.
   - Verify no service or GitHub usage created a charge before explicit approval or exceeded any later approved cap; an offline technical preview is released at checkpoint 3.1, not accepted through this full-online task.
   - Complete the new-character path: create, enter, travel, gather, equip, fight, cultivate, break through, claim, place, close, and restore.
   - Prove shared-world and duel flow with two physical clients or one physical client plus a controlled headless client.
   - Confirm every privileged-access and secret-leakage release gate passes.
   - Run a 30-minute stability check and save plain-English results, known problems, screenshots, and exact build ID.
-  - Requirements: R1–R22
+  - Requirements: R1–R23
   - Dependencies: 19
 
 - [ ] 21. Review the first playable version with the owner
@@ -236,5 +241,5 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Update the living vision, requirements, design, security plan, operations matrix, and follow-up specs from feedback.
   - Update owner controls and security evidence whenever a feature changes.
   - Do not treat any earlier decision as unchangeable.
-  - Requirements: R18, R20, R21, R22
+  - Requirements: R18, R20, R21, R22, R23
   - Dependencies: 20

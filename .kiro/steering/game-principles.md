@@ -11,10 +11,11 @@ inclusion: always
 - Consult `docs/GAME_VISION.md` before changing gameplay, architecture, content, or scope.
 - Consult `docs/OWNER_OPERATIONS_SECURITY.md` before adding or changing any gameplay feature, service, developer tool, deployment, credential, backup, or privileged route.
 - Consult `docs/COST_DECISIONS.md` before choosing, activating, scaling, or paying for any hosted service.
+- Follow `docs/PUBLIC_REPOSITORY.md` for every source, workflow, log, build, artifact, release, fork, and visibility decision.
 - Use `docs/TECHNICAL_BASELINE.md` for pinned engine, build, command-boundary, and provisional transport choices until a verified update replaces them.
 - Update `docs/CONTROL_PLANE_INVENTORY.md` before adding or changing any provider, identity, secret, environment, backup, deployment, or release access.
 - Do not add an external game asset or addon until `docs/TEMPORARY_ASSET_LICENSES.md` records and approves its exact license and redistribution rights.
-- Build a third-person 3D open-world cultivation MMO, beginning with a small iPhone `.ipa` and a private online valley.
+- Build a third-person 3D open-world cultivation MMO, beginning with a small iPhone `.ipa` and a private online valley. The source repository and unsigned test build may be public; the online world is not.
 - Preserve the long-term direction: deep freedom, meaningful consequences, living NPCs, territory building, reincarnation, immortality, multiple power systems, and eventual Omniverse-scale growth.
 - Do not artificially equalize talent, birth, luck, power, opportunities, or outcomes. Apply fairness to consistent rules, security, moderation, payments, and essential protections.
 - Keep progression classless but constrained by access, compatibility, resources, time, understanding, and danger.
@@ -23,7 +24,8 @@ inclusion: always
 - Adult romance, marriage, and families may exist, but never include sexual scenes. Child characters cannot access romance, open PvP, or graphic gore.
 - Support Off, Low, Medium, and Full gore settings. Gore changes presentation only.
 - The current money rule is cosmetics and decorations only—never direct or indirect power. The first playable build has no purchases.
-- The current development budget is $0 while the owner is the only tester. Never activate a paid plan, automatic overage, billable resource, or purchase without the owner's explicit later approval.
+- The current development budget is $0 while the owner is the only tester. Never activate a paid plan, automatic overage, billable resource, larger GitHub runner, or purchase without the owner's explicit later approval.
+- The source repository is approved to become public for free standard GitHub-hosted builds. Do not treat it as public or run a build until GitHub confirms the switch. After confirmation, public readers/forks receive no write, game-owner, server, signing, or developer-tool access. Never commit secrets or private player data, and never add an automatic public workflow trigger.
 - Railway Hobby is the owner's preferred future online-test candidate and may become permanent after testing. It is not active, purchased, permanently chosen, or approved for spending yet; follow `docs/COST_DECISIONS.md` and obtain a fresh explicit budget cap immediately before activation.
 - Free services may be used only after confirming a hard zero-cost boundary and all security/privacy requirements; if that is impossible, prepare but do not activate the hosted service.
 - Keep secrets, signing material, and private player data out of the repository.

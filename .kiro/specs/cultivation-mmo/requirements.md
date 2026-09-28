@@ -8,6 +8,7 @@
 #[[file:../../../docs/TECHNICAL_BASELINE.md]]
 #[[file:../../../docs/CONTROL_PLANE_INVENTORY.md]]
 #[[file:../../../docs/TEMPORARY_ASSET_LICENSES.md]]
+#[[file:../../../docs/PUBLIC_REPOSITORY.md]]
 #[[file:../../../docs/OWNER_ACTIONS_CHECK.md]]
 
 ## Introduction
@@ -28,8 +29,8 @@ This first version does **not** attempt the full childhood experience, public MM
    THE SYSTEM SHALL build the iOS client on a hosted macOS runner.
 2. WHEN the iOS build succeeds
    THE SYSTEM SHALL provide a downloadable `.ipa` artifact suitable for signing or installing through the owner's ESign workflow.
-3. IF signing material is needed
-   THE SYSTEM SHALL obtain it only from protected build secrets and SHALL NOT store certificates, passwords, profiles, or private keys in the repository.
+3. FOR the current public zero-cost technical preview
+   THE SYSTEM SHALL build an unsigned `.ipa` and SHALL NOT use any signing certificate, profile, password, Team ID secret, or private key; IF the owner later approves a separate signed workflow, that workflow SHALL obtain signing material only from protected build secrets and SHALL never store it in the repository or public logs.
 4. WHEN a build fails
    THE SYSTEM SHALL show a useful failure summary in the GitHub build log.
 5. THE SYSTEM SHALL keep the first build process usable from an iPhone browser.
@@ -37,7 +38,7 @@ This first version does **not** attempt the full childhood experience, public MM
 
 ## Requirement R2: Private online access
 
-**User Story:** As the owner, I want the first world to remain private, so that unfinished builds are not exposed publicly.
+**User Story:** As the owner, I want the first online world and its player data to remain private, so that publicly downloadable unfinished client builds cannot grant unapproved world access.
 
 ### Acceptance Criteria
 
@@ -384,13 +385,42 @@ This first version does **not** attempt the full childhood experience, public MM
 3. IF a required hosted service cannot safely guarantee zero cost
    THE PROJECT SHALL keep its deployment prepared but inactive and SHALL NOT weaken security, privacy, backup, audit, or owner-only access requirements to obtain free hosting.
 4. WHILE remote MMO services remain inactive
-   THE PROJECT MAY produce an owner-only `.ipa` technical preview using an in-process authoritative simulation and local prototype data, provided it is clearly labeled as offline and cannot be mistaken for completed multiplayer or online persistence.
+   THE PROJECT MAY produce a solo, owner-targeted `.ipa` technical preview using an in-process authoritative simulation and local prototype data, provided it is clearly labeled offline, published with the required public-download warning, and cannot be mistaken for completed multiplayer or online persistence.
 5. WHEN local and hosted modes share gameplay logic
    THE PROJECT SHALL keep authority boundaries behind the same versioned command interfaces so the zero-cost preview does not make future public clients authoritative.
-6. THE PROJECT SHALL monitor included GitHub build usage and any selected free-service limits and SHALL stop or defer work before a charge can occur.
+6. WHILE the repository is public
+   THE PROJECT SHALL use only free standard GitHub-hosted runners and SHALL NOT use larger/custom runners, paid services, or Actions cache; IF visibility returns to private, builds SHALL stop until private usage and a $0 hard-stop budget are rechecked.
 7. BEFORE asking the owner to approve spending
    THE PROJECT SHALL explain the reason, expected monthly and one-time costs, hard cap options, free limitations, and what can continue at $0.
 8. THE long-term online MMO, few-player test, and 1,000-concurrent-player goals SHALL remain unchanged unless the owner changes them.
 9. Railway Hobby SHALL remain the preferred provisional candidate for the first paid online test, but this preference SHALL NOT count as subscription approval, activation approval, a permanent provider decision, or approval for usage beyond a later explicit cap.
 10. IMMEDIATELY BEFORE any Railway subscription or deployment
     THE PROJECT SHALL recheck current terms, update `docs/COST_DECISIONS.md`, confirm enforceable compute and agent hard limits, and obtain the owner's explicit approval of the monthly maximum.
+11. FOR every selected free or included service
+    THE PROJECT SHALL monitor its allowance and estimated usage and SHALL stop, delete, or defer work before a charge can occur.
+
+## Requirement R23: Public source and free standard builds
+
+**User Story:** As the owner, I want the source repository public and its standard GitHub builds free, so that I can create iPhone test packages without paying for private macOS runner minutes.
+
+### Acceptance Criteria
+
+1. BEFORE changing visibility to public
+   THE PROJECT SHALL scan every tracked file and reachable historical revision for credentials, signing material, payment data, private contact data, private infrastructure identifiers, secret-bearing binaries, and private player data.
+2. WHEN the repository is public
+   THE PROJECT SHALL clearly explain that the source, full history, plans, workflow files, workflow logs, and published test builds can be viewed or copied by anyone.
+3. PUBLIC read or fork access SHALL NOT grant repository write, game-owner, server, signing, deployment, or developer-tool access.
+4. THE PROJECT SHALL keep the repository's original material under its current rights-reserved license unless the owner explicitly chooses another license.
+5. ANY iOS workflow SHALL use only owner-authorized `workflow_dispatch`—started directly by the owner or by the recognized Kiro integration after explicit owner instruction—the rolling standard `macos-latest` runner with its newest stable default Xcode, one-build concurrency, a 30-minute timeout, and no automatic push, pull-request, schedule, issue, comment, fork, or external trigger.
+6. ANY iOS workflow SHALL reject non-public repository visibility and any runner label outside the approved standard-runner allowlist.
+7. THE PROJECT SHALL NOT use a larger runner, custom runner image, Actions cache, paid action, Git LFS, signing secret, or paid external service for the zero-cost preview.
+8. ANY third-party GitHub Action SHALL be GitHub-owned, explicitly allowed, and pinned to a full commit SHA; workflow permissions SHALL remain read-only except for the narrow release-upload operation.
+9. BEFORE a workflow or build is published
+   THE PROJECT SHALL scan source, history, configuration, logs, and package contents for secrets, private data, developer UI, and unintended authority.
+10. WHEN the unsigned technical-preview `.ipa` is published
+    THE PROJECT SHALL use a clearly labeled public prerelease rather than Actions artifact/cache storage and SHALL warn that anyone can download it.
+11. IF the repository returns to private visibility
+    THE PROJECT SHALL disable the workflow until private-repository usage, allowance, and a hard $0 overage budget are verified again.
+12. THE PROJECT SHALL keep `docs/PUBLIC_REPOSITORY.md`, `.gitignore`, `LICENSE`, `SECURITY.md`, and third-party notices current as the project grows.
+13. AFTER the repository becomes public
+    THE PROJECT SHALL enable and verify GitHub private vulnerability reporting before publishing a workflow or test build.

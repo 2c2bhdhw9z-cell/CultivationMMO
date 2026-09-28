@@ -15,6 +15,8 @@ The long-term ambition is at least **1,000 players online at the same moment**, 
 - **Genre:** Cultivation life sandbox, action RPG, territory builder, and persistent MMO.
 - **Camera:** Third-person view behind the character.
 - **World:** Open, explorable 3D spaces rather than menu-only travel.
+- **Source repository direction:** Public after the verified visibility switch, so GitHub's standard hosted runners can build at $0. The initial online game world remains private to approved testers.
+- **Public-source boundary:** Anyone may read or fork the source and plans, but receives no repository write, game-owner, server, signing, or developer-tool access. Original project rights remain reserved under the repository license.
 - **First platform:** iPhone, delivered as an `.ipa` built in GitHub's cloud and privately installed with ESign.
 - **Private installation:** The owner uses ESign, not TrollStore or SideStore, and does not need the project designed around a seven-day signing limit.
 - **Development pace:** There is no fixed deadline. Correctness, quality, and finishing agreed work matter more than rushing.
@@ -190,7 +192,7 @@ The world must treat the server—not a player's phone—as the authority for mo
 
 Growth should occur in stages:
 
-0. A zero-cost owner-only technical preview, using local/on-device simulation when safe hosted services cannot meet the $0 limit
+0. A zero-cost solo, owner-targeted technical preview, using local/on-device simulation and free standard GitHub-hosted runners in the public source repository
 1. One developer/owner in a private online build after a genuinely zero-cost option is verified or the owner later approves a budget
 2. A few invited testers
 3. Small shared-world tests
@@ -222,11 +224,11 @@ These controls must use a separate owner console designed for an iPhone browser.
 
 Privileged actions must be recorded in an append-only audit trail. Destructive actions require a clear warning and, where practical, a recoverable snapshot. The owner must be able to revoke all privileged sessions immediately. No owner credential or master key may be embedded in an `.ipa`, ordinary website code, logs, or the repository.
 
-No distributable `.ipa`, including the owner's test copy, contains a developer menu or local diagnostic overlay. Runtime diagnostics are collected safely by normal game code and viewed only through the authenticated owner console. Copying or modifying an `.ipa` must reveal no privileged tool and must provide no privileged server access.
+No distributable `.ipa`, including the owner's public-prerelease test copy, contains a developer menu or local diagnostic overlay. Runtime diagnostics are collected safely by normal game code and viewed only through the authenticated owner console. Copying or modifying an `.ipa` must reveal no privileged tool and must provide no privileged server access.
 
 ## 14. First playable version
 
-Before the complete online first playable, the project may produce a **zero-cost owner-only technical preview** that runs the same game rules locally/on-device to prove the `.ipa`, movement, camera, and early gameplay without a paid server. It is a preview, not proof that multiplayer or online persistence is finished.
+Before the complete online first playable, the project may produce a **zero-cost solo, owner-targeted technical preview** that runs the same game rules locally/on-device to prove the `.ipa`, movement, camera, and early gameplay without a paid server. Its unsigned package is publicly downloadable from a clearly labeled prerelease, but it remains a solo preview—not proof that multiplayer or online persistence is finished.
 
 The complete first playable `.ipa` remains a small online foundation, not a miniature Omniverse. Its working scope is:
 

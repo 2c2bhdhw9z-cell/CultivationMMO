@@ -252,10 +252,10 @@ The dated inventory and numeric private-prototype defaults are maintained in `do
 
 Current facts:
 
-- GitHub and its Kiro integration are the only active project control planes.
+- GitHub and its Kiro integration are the only active project control planes; the source repository is approved for public visibility while only the owner retains write access.
 - No game runtime, Railway project, database, owner console, game identity provider, audit store, backup store, monitoring provider, domain, Apple project, or public distribution entry is active.
 - No owner-console identity exists yet, so nobody—including the owner—currently has a game developer menu or game-server privilege to leak.
-- GitHub account billing, plan, payment-method presence, allowance, passkey, 2FA, recovery, repository secrets, and deployment-record status are not exposed through the integration and require the owner-only check in `docs/OWNER_ACTIONS_CHECK.md` before the first workflow.
+- GitHub Free and no-current-payment-due status were confirmed by the owner's screenshot; passkey, 2FA, recovery, repository-secret, and deployment-record details remain private and should be reviewed before adding secrets or online services, but do not block a public standard-runner unsigned build.
 - The future test/live enrollment values, session times, recovery delays, isolation rules, backup retention, recovery targets, and maintenance limits are recorded in the inventory.
 - Exact domains, RP IDs, alert destinations, and provider project IDs remain intentionally blank; activation is blocked until they are selected and written down.
 

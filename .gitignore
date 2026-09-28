@@ -1,0 +1,52 @@
+# Godot generated files
+.godot/
+
+# Build and export output
+build/
+exports/
+dist/
+*.ipa
+*.xcarchive
+*.dSYM
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+.godot/export_credentials.cfg
+export_credentials.cfg
+*.p12
+*.pfx
+*.p8
+*.pem
+*.key
+*.cer
+*.mobileprovision
+*.provisionprofile
+*.keystore
+*.jks
+
+# Local secret/config directories
+secrets/
+.private/
+credentials/
+
+# Logs and operating-system files
+*.log
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local databases and player data
+*.sqlite
+*.sqlite3
+local-data/
+player-data/
+
+# Large-file pointers are not approved yet
+.lfsconfig

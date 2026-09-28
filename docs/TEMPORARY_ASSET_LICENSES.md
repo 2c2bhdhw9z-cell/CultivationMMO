@@ -23,7 +23,7 @@ No third-party character, animation, model, texture, icon, music, sound effect, 
 |---|---|---|---|---|---|
 | Godot Engine | 4.7.2-stable | [Official release](https://github.com/godotengine/godot-builds/releases/tag/4.7.2-stable) | MIT | Include Godot copyright/license notice in game documentation or credits; preserve applicable third-party notices | Approved engine dependency; not a game-content asset |
 
-Godot's [official license page](https://godotengine.org/license/) says games may use a different license, while distributed engine code must carry the Godot copyright and MIT license statement. The root `THIRD_PARTY_NOTICES.md` records that notice now. Task 3 must bundle it and preserve applicable official Godot third-party notices in **every** distributed package, including the first private tester build.
+Godot's [official license page](https://godotengine.org/license/) says games may use a different license, while distributed engine code must carry the Godot copyright and MIT license statement. The root `THIRD_PARTY_NOTICES.md` records that notice now. Task 3 must bundle it and preserve applicable official Godot third-party notices in **every** distributed package, including the first public test build.
 
 ## Required entry for every future asset
 

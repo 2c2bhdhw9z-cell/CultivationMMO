@@ -1,41 +1,49 @@
-# One Owner Check Before the First iPhone Build
+# Recommended Owner Account Safety Check
 
-Kiro's GitHub connection cannot see private billing or account-security settings. The owner must do this short check on the iPhone before any GitHub iOS workflow runs.
+This is no longer a blocker for the first build once the repository is public. GitHub's [Actions billing guide](https://docs.github.com/en/billing/concepts/product-billing/github-actions) says standard GitHub-hosted runner use is free for public repositories.
 
-## GitHub cost check
+The owner-provided screenshot on September 28, 2026 confirmed:
 
-1. Open [GitHub billing](https://github.com/settings/billing).
-2. Note the account plan name.
-3. Note the total included Actions allowance, current usage, remaining allowance, and reset date.
-4. Note only whether a payment method is present—**do not show or send its details**.
-5. Open **Budgets and alerts**.
-6. Find or create the **Actions** product budget.
-7. Set paid overage to **$0**.
-8. Turn on **Stop usage when budget limit is reached**.
-9. Turn on included-usage alerts at 90% and 100%.
-10. Open the repository's **Settings → Collaborators**, **Secrets and variables → Actions**, **Environments**, deployment history/connections, and installed-app/access pages.
-11. Confirm only your account and the recognized Kiro connection have access, and that no unknown secret, variable, environment, deployment record/connection, or app exists.
-12. Send Kiro a screenshot showing the plan, Actions allowance/usage, and budget status, with every payment detail hidden. Tell Kiro only **yes** or **no** for whether a payment method exists.
+- Account plan: GitHub Free
+- The account page showed no payment currently due
+- Included usage shown was greater than metered usage shown
 
-GitHub says metered products such as Actions can use a hard-stop budget, and warns that a new budget does not apply to usage that happened before it was created. See [GitHub budget instructions](https://docs.github.com/en/billing/how-tos/set-up-budgets).
+The screenshot did not show the Actions-specific tab or private account-security settings. Those details are unnecessary for free public standard-runner compute, but the safety checks below remain strongly recommended before any signing secret, paid service, online deployment, or owner console is added.
 
-## GitHub account-safety check
+## Recommended GitHub account check
 
-Open **GitHub Settings → Password and authentication** and confirm only these yes/no facts:
+Open **GitHub Settings → Password and authentication** and confirm privately:
 
 - A passkey is enabled.
 - Two-factor authentication is enabled.
-- Recovery codes are saved securely somewhere other than only this iPhone, when possible.
-- No person, app, secret, variable, deployment connection, or environment you do not recognize has account or repository access.
+- Recovery codes are stored securely somewhere other than only this iPhone, when possible.
 
-Do **not** send Kiro a password, recovery code, card detail, passkey, token, signing certificate, provisioning profile, or private key.
+Open the repository's **Settings → Collaborators**, **Secrets and variables → Actions**, **Environments**, deployment history/connections, and installed-app/access pages. Confirm nothing is unfamiliar.
 
-## Current status
+Do not send Kiro a password, recovery code, card detail, passkey, token, signing certificate, provisioning profile, or private key. A screenshot is not needed unless a later paid/private build decision specifically requires one.
+
+## Public-build rule
+
+The first workflow may run only after GitHub confirms the repository is public and the workflow itself passes the safeguards in `docs/PUBLIC_REPOSITORY.md`:
+
+- Owner-authorized manual trigger only
+- Standard runner only
+- No larger runner
+- No cache
+- No signing secret
+- No secret-bearing logs
+- Public test-build warning
+- No paid external service
+
+If the repository becomes private again, builds stop until private-repository usage and a $0 hard-stop budget are rechecked.
+
+## Current status before the visibility switch
 
 - Repository Actions runs: 0
 - Repository Actions artifacts: 0
+- Repository workflows: none
 - Paid project service activated: none
 - Railway activated: no
-- First workflow allowed: **not yet**
+- Public standard-runner build: allowed only after the visibility switch is verified
 
 External documentation was checked on September 28, 2026. Source material was paraphrased for compliance with licensing restrictions.

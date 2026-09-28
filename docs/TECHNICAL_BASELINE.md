@@ -8,7 +8,7 @@
 - Use **Godot 4.7.2-stable** and its simple GDScript language.
 - Build the first game for the owner's iPhone with GitHub's standard macOS runner.
 - Build a separate Linux headless version from the same Godot version for the future valley server.
-- Keep the current build offline and $0 until GitHub's billing hard stop is confirmed from the owner's account page.
+- Keep the current build offline and $0 by using only an owner-authorized standard runner after public visibility is confirmed; the owner may ask the recognized Kiro integration to dispatch it. No larger runner, cache, signing secret, or paid service.
 - For the first small online test, start with secure WebSockets (`wss://`). They are the simplest option that works through Railway's normal HTTPS entry point.
 - Keep networking behind one command interface so the offline preview and future online server use the same game rules.
 - Do not select external art, audio, fonts, models, or addons yet.
@@ -40,7 +40,7 @@ Godot's current [system requirements](https://docs.godotengine.org/en/stable/abo
 | `Godot_v4.7.2-stable_export_templates.tpz` | iOS and Linux export templates | `f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011` |
 | `Godot_v4.7.2-stable_linux.x86_64.zip` | Linux editor/headless verification | `cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4` |
 
-The files and digests come from the official [Godot 4.7.2 build release](https://github.com/godotengine/godot-builds/releases/tag/4.7.2-stable). A build must download only these exact files and fail before use if a digest differs.
+The files and digests come from the official [Godot 4.7.2 build release](https://github.com/godotengine/godot-builds/releases/tag/4.7.2-stable). A build must download only these exact files and fail before use if a digest differs. Because the repository and logs are public, checksums and package labels are public while no signing or account secret may enter the workflow.
 
 ### Headless server choice
 
@@ -52,18 +52,20 @@ Godot documents both `--headless` and a dedicated-server export mode. Dedicated-
 
 | Part | Current choice |
 |---|---|
-| Runner class | Standard GitHub-hosted runner only; never a billable larger runner |
-| Runner label | `macos-15` |
-| Requested Xcode | `26.2` at `/Applications/Xcode_26.2.app` |
-| Xcode build observed in image record | `17C52` |
+| Runner class | Standard GitHub-hosted runner only in the public repository; never a billable larger runner |
+| Runner label | `macos-latest` |
+| Requested Xcode | Default newest stable Xcode on `macos-latest`; currently `26.6` at `/Applications/Xcode.app` |
+| Xcode build observed in image record | `17F113` |
 | Export command | Godot command-line release export from a committed preset |
 | Build target | Physical iPhone device, not Simulator |
-| Artifact retention | Three days for early `.ipa` artifacts |
-| Trigger | Owner-only manual run; no automatic push build |
+| Build delivery | Clearly labeled public prerelease asset; no Actions artifact/cache storage |
+| Trigger | Owner-authorized manual run; owner may explicitly ask recognized Kiro integration to dispatch; no automatic trigger |
 | Concurrency | One iOS build at a time; a newer manual run cancels an older unfinished run |
 | Job timeout | 30 minutes until measurements justify a different limit |
 
-The selected image and Xcode were present in GitHub's official [`macos-15` runner-image record](https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md) on the recorded date. GitHub updates hosted images, so every run must print the runner-image version, `xcodebuild -version`, SDK list, Godot version, and dependency digests. It must stop if Xcode 26.2 or the pinned Godot files are unavailable.
+GitHub's [hosted-runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) defines `macos-latest` as the newest stable standard macOS image, although it may not equal Apple's newest release. At the recorded time it maps to the standard Apple-silicon macOS 26 image. The official [`macos-26` Apple-silicon image record](https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md) lists macOS 26.6.2 and Xcode 26.6 (`17F113`) as default. Xcode 27 is marked public preview and is not selected.
+
+The rolling alias is intentional because the owner wants the newest stable runner. Every run must print the resolved OS, architecture, runner-image version, `xcodebuild -version`, SDK list, Godot version, and dependency digests. If `macos-latest` advances and the pinned Godot build no longer works, the workflow fails and the baseline is reviewed; it must not silently select a beta, preview, larger, or older runner.
 
 Godot requires macOS, Xcode, and matching export templates for iOS. It also requires a Team ID-shaped value and unique bundle identifier in the export settings. Godot's command-line exporter creates an iOS/Xcode ZIP; Xcode performs the device build. See [Godot iOS export](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_ios.html) and [command-line export](https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html).
 
@@ -80,43 +82,48 @@ This exact unsigned path is a **hypothesis, not yet verified**. Godot's official
 
 ## 3. GitHub Actions $0 evidence and gate
 
-### Evidence collected automatically
+### Public visibility evidence
+
+At the time this public-ready commit is written, the visibility switch is approved but awaits GitHub confirmation. The final Task 1 commit must update this line after the API reports `public`.
 
 As of September 28, 2026:
 
-- `CultivationMMO` is private.
-- Actions is enabled, but the repository has **zero workflow runs, zero artifacts, and zero configured environments**.
+- The owner-provided billing screenshot shows GitHub Free, included usage covering the displayed metered usage, and no payment currently due.
+- The owner approved making the full repository and history public for free standard-runner builds.
+- Before the visibility switch, every historical Git blob was scanned with no actual credential, signing material, payment detail, private contact detail, private endpoint, binary, or secret-bearing revision found.
+- GitHub reports one collaborator: the repository owner.
+- Actions is enabled, but the repository has zero workflow runs, zero artifacts, zero configured environments, and no committed workflow.
 - Default workflow-token permission is read-only.
-- Other private repositories cannot consume this repository as an Action.
-- External actions are currently broadly allowed and full-SHA pinning is not required yet.
-- Repository Actions secret names, deployment records, cache state, and any external deployment identity are not readable by this integration and remain unknown until the owner check.
-- The connected GitHub integration cannot read the owner's personal plan, payment method, current account-wide allowance, or budget page; the billing API returned HTTP 403.
+- Repository-level selected-action/full-SHA enforcement could not be changed by the integration (HTTP 403); the future workflow must contain only exact reviewed GitHub-owned action SHAs and not rely on that setting.
 
-### Official limits, not account confirmation
+The public repository intentionally exposes the game vision, roadmap, security architecture, device/ESign workflow, provider preferences, source, workflow logs, and published technical previews. Public readers and fork owners receive no write or game-developer access.
 
-GitHub's [current Actions billing guide](https://docs.github.com/en/billing/concepts/product-billing/github-actions) lists 2,000 included monthly minutes and 500 MB of shared artifact/package storage for GitHub Free, but the owner's plan could not be confirmed through the integration. The same guide lists standard macOS usage beyond an allowance at $0.062 per minute and explains that private-repository use is charged to the repository owner.
+### Official public-runner rule
 
-GitHub supports metered-product budgets that stop further Actions usage when the hard-stop option is enabled. GitHub warns that a newly created budget does not cover usage that occurred before the budget was created. See [GitHub budgets](https://docs.github.com/en/billing/how-tos/set-up-budgets).
+GitHub's [Actions billing guide](https://docs.github.com/en/billing/concepts/product-billing/github-actions) says standard GitHub-hosted runners are free for public repositories. Larger runners remain charged even for public repositories and are forbidden for this project. Actions artifact and cache storage must not be treated as unlimited merely because runner compute is free.
 
-### Hard gate before the first workflow
+GitHub's [release documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases) currently permits each release asset under 2 GiB and states no total-release-size or bandwidth limit. The first unsigned `.ipa` will therefore use a clearly labeled public prerelease asset instead of Actions artifact storage. Anyone will be able to download it.
 
-No macOS workflow may be committed or run until the owner confirms from `https://github.com/settings/billing` that:
+### Gate before the first workflow
 
-1. Account plan name, total included Actions allowance, current usage, remaining allowance, and billing-cycle reset date are visible.
-2. The owner has stated only whether a payment method is present, without sharing its details.
-3. An Actions budget of `$0` for paid overage is active.
-4. **Stop usage when budget limit is reached** is enabled.
-5. Included-usage alerts at 90% and 100% are enabled.
-6. Repository collaborators, installed apps, Actions secrets/variables, environments, and deployment records/connections contain nothing unrecognized.
-7. The owner understands that reaching the included allowance will stop builds rather than charge money.
+The first workflow may run only after:
 
-The owner should follow `docs/OWNER_ACTIONS_CHECK.md` and send a screenshot that shows the Actions usage/budget state but hides payment details. The integration must never ask for card numbers, recovery codes, passwords, certificates, or tokens.
+1. GitHub confirms repository visibility is public.
+2. The committed workflow has only owner-authorized `workflow_dispatch`; the owner starts it directly or explicitly asks the recognized Kiro integration—no push, pull-request, schedule, issue, comment, fork, or external trigger.
+3. It uses only rolling standard `macos-latest`, the newest stable default Xcode on that image, and rejects any beta/preview Xcode or unapproved runner label.
+4. It uses one-build concurrency, cancellation of an older unfinished run, and a 30-minute timeout.
+5. It uses no Actions cache, paid service, larger runner, custom runner image, or signing secret.
+6. GitHub-owned actions are pinned to full commit SHAs and the workflow token stays read-only except for a narrow release-upload step.
+7. The workflow and public log pass credential, private-data, environment-dump, and developer-menu review.
+8. The output and release page clearly say `Offline Technical Preview`, unsigned, public, and not completed online play.
 
-Before Task 3, repository Actions policy should also be narrowed to required GitHub-owned actions, each action should use a full commit SHA, workflow permissions should remain read-only unless one explicit job needs more, and artifact retention should be kept short. GitHub documents these controls in [repository Actions settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository).
+If the repository becomes private again, the workflow must refuse to build until private-repository usage and a $0 hard-stop budget are rechecked.
+
+The account passkey, 2FA, recovery, and unrecognized-access review in `docs/OWNER_ACTIONS_CHECK.md` remains strongly recommended before any secret, online deployment, or owner console is added. It is no longer a public standard-runner compute blocker.
 
 ## 4. One authority boundary for offline and online play
 
-The user interface never changes valuable game state directly. It sends a command to an authority interface.
+The user interface never changes valuable game state directly. It sends a command to an authority interface. Public source visibility does not make the player's app or a fork authoritative.
 
 ```text
 Touch/UI input
@@ -231,7 +238,6 @@ Godot is MIT licensed and allows commercial use, but its copyright and license n
 
 - Whether the ESign path accepts the first unsigned package
 - ESign certificate Team ID and final bundle identifier
-- Final GitHub account plan and remaining included Actions allowance
 - Final online transport after real iPhone measurements
 - Permanent host and regions
 - Public minimum iPhone/iOS support

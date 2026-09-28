@@ -9,6 +9,7 @@
 #[[file:../../../docs/TECHNICAL_BASELINE.md]]
 #[[file:../../../docs/CONTROL_PLANE_INVENTORY.md]]
 #[[file:../../../docs/TEMPORARY_ASSET_LICENSES.md]]
+#[[file:../../../docs/PUBLIC_REPOSITORY.md]]
 #[[file:../../../docs/OWNER_ACTIONS_CHECK.md]]
 
 ## 1. Purpose
@@ -43,23 +44,24 @@ The first server targets two to ten testers. WSS is selected as the smallest Rai
 
 ### Cloud build
 
-- GitHub Actions on the standard `macos-15` hosted runner
-- Explicit Xcode 26.2 selection and version check
+- GitHub Actions on the rolling standard `macos-latest` hosted runner, which currently resolves to macOS 26 on Apple silicon
+- Use the newest stable default Xcode on that image (currently Xcode 26.6); never select an Xcode public preview
 - Pinned Godot 4.7.2 editor/templates with SHA-256 verification
 - Godot iOS export followed by a physical-device Xcode build and provisional unsigned ESign package step
-- Downloadable `.ipa` artifact retained for three days
-- Owner-only manual trigger, one concurrent build, and a 30-minute timeout
-- Signing data, if later used, loaded only from protected repository secrets
+- Downloadable unsigned `.ipa` published as a clearly labeled public prerelease asset; no Actions artifact/cache storage for the zero-cost preview
+- Owner-authorized manual trigger, one concurrent build, and a 30-minute timeout
+- Public standard runner only; larger/custom runners are forbidden
+- No signing secret in the current preview; a future signed workflow requires a separate explicit requirements and budget change
 
-GitHub builds the app. A separate host runs the future online server and database. No workflow may run until the private GitHub budget check in `docs/OWNER_ACTIONS_CHECK.md` is complete.
+GitHub builds the app. A separate host runs the future online server and database. The first workflow may run only after repository visibility is verified public and every safeguard in `docs/PUBLIC_REPOSITORY.md` is present.
 
 ### Current zero-cost gate
 
-The current owner-approved budget is **$0**. No paid plan, automatic overage, billable resource, or purchase may be activated until the owner explicitly changes that limit. Included GitHub usage and any free hosted allowance must be checked before use, monitored from the owner's phone, and stopped before a charge can occur.
+The current owner-approved budget is **$0**. The source repository is approved to become public; after GitHub confirms the switch, standard `macos-latest` runner compute is free under GitHub's current rules. No paid plan, automatic overage, billable resource, larger/custom runner, Actions cache, or purchase may be activated until the owner explicitly changes that limit. Public source, workflow logs, and prerelease builds contain no secret or private player data.
 
 The zero-cost preview checkpoint is intentionally reachable before hosted account and valley tasks. It uses a small in-process adapter, graybox area, touch movement/camera, one interaction, one combat-input target, and one meditation input. Those pieces are reusable, but the checkpoint is explicitly experimental and does not mark their full gameplay, persistence, online, or owner-console requirements complete.
 
-If no safe hosted option can enforce a true zero-dollar limit, hosted deployment remains prepared but inactive. Development may use local/headless processes in the workspace and an in-process authoritative simulation inside a clearly labeled owner-only technical-preview `.ipa`. The preview uses the same versioned gameplay command boundary as the future server, but it is not accepted as proof of multiplayer, remote persistence, owner-console security, or the complete online first playable.
+If no safe hosted option can enforce a true zero-dollar limit, hosted deployment remains prepared but inactive. Development may use local/headless processes in the workspace and an in-process authoritative simulation inside a clearly labeled solo, owner-targeted technical-preview `.ipa` published with a public-download warning. The preview uses the same versioned gameplay command boundary as the future server, but it is not accepted as proof of multiplayer, remote persistence, owner-console security, or the complete online first playable.
 
 Security, privacy, backups, audit, and owner-only access are never weakened to fit a free plan.
 
@@ -499,15 +501,16 @@ Audio needs basic footsteps, interaction, combat impact, ambient world, and cult
 
 ## 14. Build and release flow
 
-1. Validate repository content, selected environment, build mode, and current cost boundary.
-2. Build the separate owner console and owner-control API; activate hosted resources only for the complete online version and only within the approved cost boundary.
-3. Export the Godot iOS project on a macOS cloud runner.
-4. Build the same locked player client for owner and tester use, with every developer menu and local debug overlay absent.
-5. Package the client as an `.ipa` suitable for the owner's ESign process.
-6. Upload artifacts with clear environment, mode, version, and commit identifiers.
-7. A zero-cost solo preview is labeled Offline Technical Preview and cannot claim multiplayer, remote persistence, or online owner-console verification.
-8. Deploy compatible server changes before distributing an online client that requires them.
-9. Reject incompatible online client versions with a plain message.
+1. Verify repository visibility is public and validate source, history, workflow, selected environment, build mode, and current cost boundary.
+2. Refuse automatic triggers, non-standard/larger runners, caches, signing secrets, and paid external services.
+3. Build the separate owner console and owner-control API only for the later online version and only within an approved hosting boundary.
+4. Export the Godot iOS project on the rolling standard `macos-latest` runner using its newest stable default Xcode and pinned Godot downloads; record the resolved versions and never select an Xcode public preview.
+5. Build the same locked player client for owner and tester use, with every developer menu and local debug overlay absent.
+6. Package the client as an unsigned `.ipa` suitable for the owner's ESign process.
+7. Publish it as a clearly labeled public prerelease asset with environment, mode, version, commit, checksum, and warning that anyone can download it; do not use Actions artifact/cache storage.
+8. A zero-cost solo preview is labeled Offline Technical Preview and cannot claim multiplayer, remote persistence, or online owner-console verification.
+9. Deploy compatible server changes before distributing an online client that requires them.
+10. Reject incompatible online client versions with a plain message.
 
 No certificate, profile, password, passkey private material, API key, owner token, or server secret belongs in committed files or downloadable artifacts.
 
@@ -515,7 +518,7 @@ No certificate, profile, password, passkey private material, API key, owner toke
 
 A general automated gameplay test suite is outside this first spec. However, the user's explicit requirement that nobody else can access developer tools requires repeatable authorization and secret-leakage security gates. Manual iPhone verification remains evidence-based:
 
-- Cloud build log and downloadable `.ipa`
+- Public cloud-build log and downloadable public-prerelease `.ipa`, with no secret or private data
 - Installation through ESign on the owner's iPhone
 - A complete new-character playthrough
 - Wi-Fi and cellular connection checks
