@@ -19,6 +19,8 @@ inclusion: always
 - Adult romance, marriage, and families may exist, but never include sexual scenes. Child characters cannot access romance, open PvP, or graphic gore.
 - Support Off, Low, Medium, and Full gore settings. Gore changes presentation only.
 - The current money rule is cosmetics and decorations only—never direct or indirect power. The first playable build has no purchases.
+- The current development budget is $0 while the owner is the only tester. Never activate a paid plan, automatic overage, billable resource, or purchase without the owner's explicit later approval.
+- Free services may be used only after confirming a hard zero-cost boundary and all security/privacy requirements; if that is impossible, prepare but do not activate the hosted service.
 - Keep secrets, signing material, and private player data out of the repository.
 - Do not pretend the whole MMO can be built at once. Deliver small playable foundations that can grow without discarding the north star.
 - The online services, database, health checks, backups, cost alerts, and rollback controls must be operable from an iPhone browser; GitHub builds the app but does not host the MMO world.

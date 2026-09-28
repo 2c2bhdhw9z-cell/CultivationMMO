@@ -42,6 +42,16 @@ The first server targets two to ten testers. The boundaries are chosen so later 
 
 GitHub builds the app. A separate host runs the online server and database.
 
+### Current zero-cost gate
+
+The current owner-approved budget is **$0**. No paid plan, automatic overage, billable resource, or purchase may be activated until the owner explicitly changes that limit. Included GitHub usage and any free hosted allowance must be checked before use, monitored from the owner's phone, and stopped before a charge can occur.
+
+The zero-cost preview checkpoint is intentionally reachable before hosted account and valley tasks. It uses a small in-process adapter, graybox area, touch movement/camera, one interaction, one combat-input target, and one meditation input. Those pieces are reusable, but the checkpoint is explicitly experimental and does not mark their full gameplay, persistence, online, or owner-console requirements complete.
+
+If no safe hosted option can enforce a true zero-dollar limit, hosted deployment remains prepared but inactive. Development may use local/headless processes in the workspace and an in-process authoritative simulation inside a clearly labeled owner-only technical-preview `.ipa`. The preview uses the same versioned gameplay command boundary as the future server, but it is not accepted as proof of multiplayer, remote persistence, owner-console security, or the complete online first playable.
+
+Security, privacy, backups, audit, and owner-only access are never weakened to fit a free plan.
+
 ### Service deployment and owner operations
 
 The chosen service host must provide an iPhone-readable dashboard or a protected GitHub-triggered deployment. The private prototype needs:
@@ -52,9 +62,9 @@ The chosen service host must provide an iPhone-readable dashboard or a protected
 - Health checks that do not reveal private data
 - Database backups and a written restoration path
 - A previous compatible server version available for rollback
-- A spending limit or cost alert visible from the owner's phone
+- A verified hard $0 spending limit during the current owner-only stage; later, a spending limit or cost alert approved by the owner and visible from the owner's phone
 
-A client that needs a new protocol is not distributed until a compatible server is healthy.
+If a provider cannot enforce the current $0 limit, its deployment configuration may be prepared but the hosted resources remain inactive. A client that needs a new protocol is not distributed until a compatible server is healthy.
 
 ## 3. High-level architecture
 
@@ -468,14 +478,15 @@ Audio needs basic footsteps, interaction, combat impact, ambient world, and cult
 
 ## 14. Build and release flow
 
-1. Validate repository content, selected environment, and build configuration.
-2. Build and deploy the separate owner console and owner-control API behind strong authentication.
+1. Validate repository content, selected environment, build mode, and current cost boundary.
+2. Build the separate owner console and owner-control API; activate hosted resources only for the complete online version and only within the approved cost boundary.
 3. Export the Godot iOS project on a macOS cloud runner.
 4. Build the same locked player client for owner and tester use, with every developer menu and local debug overlay absent.
 5. Package the client as an `.ipa` suitable for the owner's ESign process.
-6. Upload artifacts with clear environment, type, version, and commit identifiers.
-7. Deploy compatible server changes before distributing a client that requires them.
-8. Reject incompatible client versions with a plain message.
+6. Upload artifacts with clear environment, mode, version, and commit identifiers.
+7. A zero-cost solo preview is labeled Offline Technical Preview and cannot claim multiplayer, remote persistence, or online owner-console verification.
+8. Deploy compatible server changes before distributing an online client that requires them.
+9. Reject incompatible online client versions with a plain message.
 
 No certificate, profile, password, passkey private material, API key, owner token, or server secret belongs in committed files or downloadable artifacts.
 

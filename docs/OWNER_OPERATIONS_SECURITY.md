@@ -91,6 +91,8 @@ Current rules:
 - Backups are encrypted, integrity-checked, retention-limited, and owner-only.
 - Provider audit logs are exported to the protected audit store where supported.
 - Access inventory and provider memberships are reviewed before every public release and after any security event.
+- During the current owner-only stage, every provider must enforce a hard $0 limit or remain inactive. A free label or usage alert alone is not permission to risk an overage.
+- No weaker authentication, public database, missing backup, reduced audit, or broader human access is accepted merely because it is available on a free plan.
 
 Cloud providers necessarily operate their own infrastructure. Sensitive state should be encrypted and permissions minimized so provider access does not become ordinary game-developer access.
 

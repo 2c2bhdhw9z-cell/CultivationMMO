@@ -363,3 +363,24 @@ This first version does **not** attempt the full childhood experience, public MM
 16. BEFORE release
     THE SYSTEM SHALL scan the repository, relevant history, `.ipa`, owner-console bundle, server artifacts, containers, build/deployment logs, backup metadata, and audit exports for secrets, developer UI, unsafe endpoints, source maps, or unintended client authority.
 17. THE SYSTEM SHALL grant no other person developer access unless the owner explicitly changes this requirement.
+
+## Requirement R22: Current zero-cost development stage
+
+**User Story:** As the sole current tester, I want development to cost $0 for now, so that I can decide on a budget later without receiving an unexpected bill.
+
+### Acceptance Criteria
+
+1. UNTIL the owner explicitly approves a new budget
+   THE SYSTEM SHALL NOT activate a paid plan, billable resource, automatic overage, purchase, or service that cannot enforce a zero-dollar limit.
+2. BEFORE activating any free hosted service
+   THE PROJECT SHALL verify its current free allowance, hard spending controls, sleep/expiry behavior, data handling, security limits, and deletion path in plain English.
+3. IF a required hosted service cannot safely guarantee zero cost
+   THE PROJECT SHALL keep its deployment prepared but inactive and SHALL NOT weaken security, privacy, backup, audit, or owner-only access requirements to obtain free hosting.
+4. WHILE remote MMO services remain inactive
+   THE PROJECT MAY produce an owner-only `.ipa` technical preview using an in-process authoritative simulation and local prototype data, provided it is clearly labeled as offline and cannot be mistaken for completed multiplayer or online persistence.
+5. WHEN local and hosted modes share gameplay logic
+   THE PROJECT SHALL keep authority boundaries behind the same versioned command interfaces so the zero-cost preview does not make future public clients authoritative.
+6. THE PROJECT SHALL monitor included GitHub build usage and any selected free-service limits and SHALL stop or defer work before a charge can occur.
+7. BEFORE asking the owner to approve spending
+   THE PROJECT SHALL explain the reason, expected monthly and one-time costs, hard cap options, free limitations, and what can continue at $0.
+8. THE long-term online MMO, few-player test, and 1,000-concurrent-player goals SHALL remain unchanged unless the owner changes them.

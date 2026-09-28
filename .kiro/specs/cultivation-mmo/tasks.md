@@ -15,11 +15,13 @@ A gameplay or service task cannot be checked off until its matching row in `docs
 - [ ] 1. Record the technical and security baseline
   - Confirm the Godot version available for reproducible iOS and headless exports.
   - Compare the smallest viable authenticated real-time transport on Wi-Fi and cellular networks.
-  - Choose phone-operable private hosts for the servers, database, identity, audit, backups, monitoring, and owner console.
-  - Inventory every external control plane and document its owner-only human access, passkey/MFA, machine identities, audit, revocation, and cost limit.
+  - Choose phone-operable private hosts for the servers, database, identity, audit, backups, monitoring, and owner console only if they can enforce the current $0 limit; otherwise document them for later without activating them.
+  - Verify current GitHub included usage and every candidate service's hard spending controls, free limits, sleep/expiry behavior, data handling, and deletion path in plain English.
+  - Create and maintain a plain-English cost decision brief listing what continues at $0, each optional service, why it might be needed, free limitations, expected one-time/monthly cost, and available hard caps; present it before ever asking for nonzero approval.
+  - Inventory every external control plane and document its owner-only human access, passkey/MFA, machine identities, audit, revocation, and $0 hard limit.
   - Define exact owner enrollment, passkey rotation, lost-phone recovery, environment isolation, backup retention, and maintenance-executor ceremonies.
   - Record licenses for every selected temporary asset.
-  - Requirements: R1, R2, R12, R14, R16, R17, R19, R20, R21
+  - Requirements: R1, R2, R12, R14, R16, R17, R19, R20, R21, R22
   - Dependencies: None
 
 - [ ] 2. Create the multi-part project skeleton
@@ -34,13 +36,24 @@ A gameplay or service task cannot be checked off until its matching row in `docs
 - [ ] 3. Prove the GitHub-to-iPhone build path
   - Add a reviewed cloud workflow that exports the Godot client on macOS and packages an `.ipa` artifact.
   - Build one locked player client for owner and tester use with no developer menu or local diagnostic overlay.
-  - Build the protected owner console separately; do not place its assets or routes inside the `.ipa`.
+  - Allow a clearly labeled zero-cost solo technical-preview mode that runs the same versioned authoritative gameplay commands in process; do not represent it as completed online play.
+  - Build the protected owner-console shell separately; do not place its assets or routes inside the `.ipa` and do not activate hosted resources outside the approved cost boundary.
+  - For checkpoint 3.1, use the private owner-only GitHub Actions page as the temporary build control and audit view; full runtime owner controls remain an online-version requirement.
   - Give artifacts clear environment, type, version, and commit names.
   - Make failure logs understandable and obtain signing/deployment access only through short-lived or protected secrets.
   - Add owner inspection for builds, versions, failures, artifacts, and release compatibility, plus approved start/stop/rollback controls and audit.
   - Perform the first ESign installation and non-owner artifact-inspection check before deeper gameplay.
-  - Requirements: R1, R19, R20, R21
+  - Requirements: R1, R19, R20, R21, R22
   - Dependencies: 2
+  - [ ] 3.1 Produce the reachable zero-cost solo technical-preview checkpoint
+    - Add a minimal app shell and settings needed by the preview.
+    - Add an in-process authoritative command adapter behind the same versioned interface intended for the future hosted valley.
+    - Add a reusable graybox area, third-person touch movement and camera, one interaction, one combat-input target, and one meditation input so the owner can judge basic feel.
+    - Keep data local, label the entire build `Offline Technical Preview`, include no developer menu, and make no multiplayer, remote-save, or online-console claim.
+    - Build through the monitored included GitHub allowance, install through ESign, and stop before any charge.
+    - Treat this as an experimental checkpoint, not completion of the full gameplay, online, persistence, or owner-control requirements.
+    - Requirements: R1, R4, R5, R15, R16, R21, R22
+    - Dependencies: 3
 
 - [ ] 4. Build the mobile app shell and settings
   - Add boot, loading, private sign-in, retry, version-mismatch, and settings screens.
@@ -60,18 +73,20 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Keep owner identity/revocation outside gameplay restore data and send complete privileged events to external append-only audit storage.
   - Give the account service sole write ownership of account/session/identity data and the active valley server sole write ownership of gameplay state.
   - Add atomic or safely repeatable writes, encrypted integrity-checked backups, and versioned migrations.
-  - Provision separate test/live services, databases, secrets, keys, backup stores, identities, command audiences, health, costs, and rollback controls without a local computer.
-  - Add owner inspection and bounded controls for accounts, sessions, migrations, writer leases, backup, tested restore, deployment, rollback, costs, and audit.
-  - Requirements: R2, R13, R17, R19, R20, R21
+  - Prepare separate test/live deployment definitions, databases, secrets, keys, backup stores, identities, command audiences, health, costs, and rollback controls without a local computer; activate hosted resources only when they can enforce the current $0 limit or after later explicit owner budget approval.
+  - Before requesting any nonzero approval, update and present the cost decision brief from Task 1 and stop until the owner explicitly approves a hard limit.
+  - Add owner inspection and bounded controls for accounts, sessions, migrations, writer leases, backup, tested restore, deployment, rollback, costs, free-usage limits, and audit.
+  - Requirements: R2, R13, R17, R19, R20, R21, R22
   - Dependencies: 1, 2
 
-- [ ] 6. Connect the client to an authoritative empty valley
-  - Establish authenticated live sessions between the Godot client and valley server.
+- [ ] 6. Connect the client to an authoritative hosted valley
+  - Establish authenticated live sessions between the Godot client and hosted valley server, reusing the versioned command interface proven by checkpoint 3.1.
+  - Do not activate hosting unless it enforces $0 or the owner has explicitly approved a later hard budget cap.
   - Add protocol checks, reconnect, server-controlled spawning, interest management skeleton, request IDs, and a single-writer gameplay lease.
   - Implement private service identity and replay-resistant owner command envelopes; downstream services independently reject direct or invalid privileged calls.
   - Add owner inspection for sessions, latency, protocol, server state, leases, connection errors, and health; add bounded drain, restart, safe disconnect, and lease-repair controls.
   - Confirm private player connectivity over Wi-Fi and cellular and owner operation through the iPhone console.
-  - Requirements: R2, R12, R13, R16, R17, R19, R20, R21
+  - Requirements: R2, R12, R13, R16, R17, R19, R20, R21, R22
   - Dependencies: 3, 4, 5
 
 - [ ] 7. Implement character creation and durable character loading
@@ -200,12 +215,13 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Build the release-candidate player artifact through GitHub and install it through ESign.
   - Confirm the artifact contains no developer menu or diagnostic overlay and protected console assets are unavailable before owner authentication.
   - Use the owner console from the iPhone to complete every operations-matrix action relevant to the first slice.
-  - Confirm service/database health, audit integrity, external-control inventory, backup/test restore, cost alert, revoke-all, maintenance repair, deployment, and rollback.
+  - Confirm service/database health, audit integrity, external-control inventory, backup/test restore, compliance with the currently owner-approved hard budget cap, cost alert, revoke-all, maintenance repair, deployment, and rollback.
+  - Verify no service or GitHub usage created a charge before explicit approval or exceeded any later approved cap; an offline technical preview is released at checkpoint 3.1, not accepted through this full-online task.
   - Complete the new-character path: create, enter, travel, gather, equip, fight, cultivate, break through, claim, place, close, and restore.
   - Prove shared-world and duel flow with two physical clients or one physical client plus a controlled headless client.
   - Confirm every privileged-access and secret-leakage release gate passes.
   - Run a 30-minute stability check and save plain-English results, known problems, screenshots, and exact build ID.
-  - Requirements: R1–R21
+  - Requirements: R1–R22
   - Dependencies: 19
 
 - [ ] 21. Review the first playable version with the owner
@@ -213,5 +229,5 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Update the living vision, requirements, design, security plan, operations matrix, and follow-up specs from feedback.
   - Update owner controls and security evidence whenever a feature changes.
   - Do not treat any earlier decision as unchangeable.
-  - Requirements: R18, R20, R21
+  - Requirements: R18, R20, R21, R22
   - Dependencies: 20

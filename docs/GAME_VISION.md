@@ -18,6 +18,7 @@ The long-term ambition is at least **1,000 players online at the same moment**, 
 - **First platform:** iPhone, delivered as an `.ipa` built in GitHub's cloud and privately installed with ESign.
 - **Private installation:** The owner uses ESign, not TrollStore or SideStore, and does not need the project designed around a seven-day signing limit.
 - **Development pace:** There is no fixed deadline. Correctness, quality, and finishing agreed work matter more than rushing.
+- **Current development budget:** **$0 while the owner is the only tester.** No paid plan, billable service, automatic overage, or purchase may be activated without the owner's later explicit approval.
 - **Later platforms:** Android and computers, sharing accounts and worlds when practical.
 - **Public release:** An official App Store release will eventually be needed to reach a large audience. Private ESign builds are for development and personal testing.
 - **Orientation:** Landscape is the working choice for third-person controls.
@@ -189,12 +190,15 @@ The world must treat the server—not a player's phone—as the authority for mo
 
 Growth should occur in stages:
 
-1. One developer/owner in a private online build
+0. A zero-cost owner-only technical preview, using local/on-device simulation when safe hosted services cannot meet the $0 limit
+1. One developer/owner in a private online build after a genuinely zero-cost option is verified or the owner later approves a budget
 2. A few invited testers
 3. Small shared-world tests
 4. Regional and persistence load tests
 5. Public testing
 6. Gradual scale toward 1,000+ simultaneous players
+
+The $0 stage does not cancel the online MMO design. It prevents accidental spending while only the owner is testing. If a safe service cannot guarantee zero cost, its deployment remains prepared but inactive until the owner chooses a budget; security, privacy, backups, and owner-only access must never be weakened merely to use a free service.
 
 For now, money may purchase only cosmetic presentation and decorations. Paid items should not be exchangeable for game currency or power. The first playable version contains no purchases.
 
@@ -220,7 +224,9 @@ No distributable `.ipa`, including the owner's test copy, contains a developer m
 
 ## 14. First playable version
 
-The first `.ipa` is a small online foundation, not a miniature Omniverse. Its working scope is:
+Before the complete online first playable, the project may produce a **zero-cost owner-only technical preview** that runs the same game rules locally/on-device to prove the `.ipa`, movement, camera, and early gameplay without a paid server. It is a preview, not proof that multiplayer or online persistence is finished.
+
+The complete first playable `.ipa` remains a small online foundation, not a miniature Omniverse. Its working scope is:
 
 - One private online valley
 - A village, forest, mountains, and cave
