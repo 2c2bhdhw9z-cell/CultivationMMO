@@ -200,6 +200,8 @@ Growth should occur in stages:
 
 The $0 stage does not cancel the online MMO design. It prevents accidental spending while only the owner is testing. If a safe service cannot guarantee zero cost, its deployment remains prepared but inactive until the owner chooses a budget; security, privacy, backups, and owner-only access must never be weakened merely to use a free service.
 
+**Railway Hobby is the current preferred candidate for the first paid online test.** It may become the permanent provider if real testing goes well, but neither purchase nor permanent use is decided. Its current advertised $5 figure is a minimum commitment with usage-based charges possible above the included credit, so activation requires a newly approved monthly maximum and the checklist in `docs/COST_DECISIONS.md`.
+
 For now, money may purchase only cosmetic presentation and decorations. Paid items should not be exchangeable for game currency or power. The first playable version contains no purchases.
 
 ### 13.1 Owner-only developer and operations tools

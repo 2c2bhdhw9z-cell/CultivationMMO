@@ -5,6 +5,7 @@
 #[[file:requirements.md]]
 #[[file:../../../docs/GAME_VISION.md]]
 #[[file:../../../docs/OWNER_OPERATIONS_SECURITY.md]]
+#[[file:../../../docs/COST_DECISIONS.md]]
 
 ## 1. Purpose
 
@@ -51,6 +52,8 @@ The zero-cost preview checkpoint is intentionally reachable before hosted accoun
 If no safe hosted option can enforce a true zero-dollar limit, hosted deployment remains prepared but inactive. Development may use local/headless processes in the workspace and an in-process authoritative simulation inside a clearly labeled owner-only technical-preview `.ipa`. The preview uses the same versioned gameplay command boundary as the future server, but it is not accepted as proof of multiplayer, remote persistence, owner-console security, or the complete online first playable.
 
 Security, privacy, backups, audit, and owner-only access are never weakened to fit a free plan.
+
+Railway Hobby is the owner's current preferred candidate for the first paid hosted test and may be retained if measured results are good. It remains inactive during the $0 stage. Before activation, recheck Railway's current pricing and technical limits, complete `docs/COST_DECISIONS.md`, obtain the owner's explicit monthly maximum, and configure enforceable compute and agent usage limits plus lower alerts. Treat the advertised $5 as a minimum commitment, not a guaranteed maximum.
 
 ### Service deployment and owner operations
 

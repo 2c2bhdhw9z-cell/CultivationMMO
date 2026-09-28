@@ -5,6 +5,7 @@
 #[[file:requirements.md]]
 #[[file:design.md]]
 #[[file:../../../docs/OWNER_OPERATIONS_SECURITY.md]]
+#[[file:../../../docs/COST_DECISIONS.md]]
 
 > All tasks are provisional. If the game direction changes, update the requirements and design before continuing implementation.
 
@@ -15,9 +16,9 @@ A gameplay or service task cannot be checked off until its matching row in `docs
 - [ ] 1. Record the technical and security baseline
   - Confirm the Godot version available for reproducible iOS and headless exports.
   - Compare the smallest viable authenticated real-time transport on Wi-Fi and cellular networks.
-  - Choose phone-operable private hosts for the servers, database, identity, audit, backups, monitoring, and owner console only if they can enforce the current $0 limit; otherwise document them for later without activating them.
+  - Choose phone-operable private hosts for the servers, database, identity, audit, backups, monitoring, and owner console only if they can enforce the current $0 limit; otherwise keep Railway Hobby as the preferred later candidate without activating it and compare alternatives only when needed.
   - Verify current GitHub included usage and every candidate service's hard spending controls, free limits, sleep/expiry behavior, data handling, and deletion path in plain English.
-  - Create and maintain a plain-English cost decision brief listing what continues at $0, each optional service, why it might be needed, free limitations, expected one-time/monthly cost, and available hard caps; present it before ever asking for nonzero approval.
+  - Create and maintain `docs/COST_DECISIONS.md`, listing what continues at $0, Railway's current terms, why hosting may be needed, free limitations, expected one-time/monthly cost, enforceable hard caps, test results, and exit options; present it before ever asking for nonzero approval.
   - Inventory every external control plane and document its owner-only human access, passkey/MFA, machine identities, audit, revocation, and $0 hard limit.
   - Define exact owner enrollment, passkey rotation, lost-phone recovery, environment isolation, backup retention, and maintenance-executor ceremonies.
   - Record licenses for every selected temporary asset.
@@ -73,8 +74,8 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Keep owner identity/revocation outside gameplay restore data and send complete privileged events to external append-only audit storage.
   - Give the account service sole write ownership of account/session/identity data and the active valley server sole write ownership of gameplay state.
   - Add atomic or safely repeatable writes, encrypted integrity-checked backups, and versioned migrations.
-  - Prepare separate test/live deployment definitions, databases, secrets, keys, backup stores, identities, command audiences, health, costs, and rollback controls without a local computer; activate hosted resources only when they can enforce the current $0 limit or after later explicit owner budget approval.
-  - Before requesting any nonzero approval, update and present the cost decision brief from Task 1 and stop until the owner explicitly approves a hard limit.
+  - Prepare separate test/live deployment definitions, databases, secrets, keys, backup stores, identities, command audiences, health, costs, and rollback controls without a local computer; Railway Hobby is preferred for the first paid test but remains inactive until the owner gives explicit approval at that time.
+  - Before requesting any nonzero approval, update and present `docs/COST_DECISIONS.md`, recheck Railway's current terms, confirm enforceable compute and agent hard limits, ask for a clear monthly maximum, and stop until the owner explicitly approves it.
   - Add owner inspection and bounded controls for accounts, sessions, migrations, writer leases, backup, tested restore, deployment, rollback, costs, free-usage limits, and audit.
   - Requirements: R2, R13, R17, R19, R20, R21, R22
   - Dependencies: 1, 2

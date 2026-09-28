@@ -4,6 +4,7 @@
 
 #[[file:../../../docs/GAME_VISION.md]]
 #[[file:../../../docs/OWNER_OPERATIONS_SECURITY.md]]
+#[[file:../../../docs/COST_DECISIONS.md]]
 
 ## Introduction
 
@@ -384,3 +385,6 @@ This first version does **not** attempt the full childhood experience, public MM
 7. BEFORE asking the owner to approve spending
    THE PROJECT SHALL explain the reason, expected monthly and one-time costs, hard cap options, free limitations, and what can continue at $0.
 8. THE long-term online MMO, few-player test, and 1,000-concurrent-player goals SHALL remain unchanged unless the owner changes them.
+9. Railway Hobby SHALL remain the preferred provisional candidate for the first paid online test, but this preference SHALL NOT count as subscription approval, activation approval, a permanent provider decision, or approval for usage beyond a later explicit cap.
+10. IMMEDIATELY BEFORE any Railway subscription or deployment
+    THE PROJECT SHALL recheck current terms, update `docs/COST_DECISIONS.md`, confirm enforceable compute and agent hard limits, and obtain the owner's explicit approval of the monthly maximum.
