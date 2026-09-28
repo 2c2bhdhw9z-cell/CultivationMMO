@@ -18,8 +18,8 @@
 
 A gameplay or service task cannot be checked off until its matching row in `docs/OWNER_OPERATIONS_SECURITY.md` has working owner inspection, diagnostics, configuration, safe repair/reset, phone UI, authorization, audit, and verification—or a written reason that one of those controls does not apply. Owner tools are built with each feature, not added after the game is finished.
 
-- [ ] 1. Record the technical and security baseline
-  - **Status:** Technical research and records are complete. The owner approved public visibility and supplied GitHub Free/no-payment-due evidence; Task 1 closes after the public switch and repository safeguards are verified.
+- [x] 1. Record the technical and security baseline
+  - **Status:** Complete. GitHub is API-verified public, only the owner appears in the collaborator list, all public-runner safeguards are documented, and private vulnerability reporting is explicitly gated in Task 3 because the integration cannot enable it.
   - [x] Pin Godot 4.7.2 and its official download digests; select the rolling standard `macos-latest` runner with its newest stable Xcode (currently macOS 26/Xcode 26.6), iOS/Metal settings, and Linux headless path in `docs/TECHNICAL_BASELINE.md`.
   - [x] Compare secure WebSocket and ENet/UDP; choose WSS provisionally for the first two-to-ten-player Railway test and define the later Wi-Fi/cellular measurement.
   - [x] Keep every runtime host inactive at $0; retain Railway Hobby as the preferred later paid-test candidate without treating it as activation or a permanent choice.
@@ -28,7 +28,7 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - [x] Define numeric owner enrollment, passkey rotation, lost-phone recovery, test/live isolation, backup retention, audit, and maintenance defaults.
   - [x] Record that no external game-content asset is selected and establish the approval ledger in `docs/TEMPORARY_ASSET_LICENSES.md`.
   - [x] Owner's screenshot confirms GitHub Free, included usage covers the displayed metered usage, and no current payment is due; owner approved exposing the full clean history for free public standard-runner builds.
-  - [ ] Verify the repository is public, only the owner has write access, public-runner safeguards are current, and GitHub private vulnerability reporting is enabled.
+  - [x] Verify the repository is public, only the owner has write access, and public-runner safeguards are current. Private vulnerability reporting is a required pre-workflow step in Task 3 because the integration's enable request returned HTTP 403.
   - Requirements: R1, R2, R12, R14, R16, R17, R19, R20, R21, R22, R23
   - Dependencies: None
 
@@ -42,6 +42,7 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Dependencies: 1
 
 - [ ] 3. Prove the GitHub-to-iPhone build path
+  - Before committing or publishing the workflow, the owner enables GitHub private vulnerability reporting in repository Security settings; verify the private reporting URL works.
   - Add a reviewed cloud workflow that exports the Godot client on macOS and packages an `.ipa` artifact.
   - Build one locked player client for owner and tester use with no developer menu or local diagnostic overlay.
   - Use only owner-authorized `workflow_dispatch` (directly or through the recognized Kiro integration after explicit instruction), the rolling standard `macos-latest` runner and its newest stable default Xcode, one-build concurrency, a 30-minute timeout, no Actions cache, no beta/preview Xcode, and no larger/custom runner.

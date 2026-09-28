@@ -25,7 +25,7 @@ inclusion: always
 - Support Off, Low, Medium, and Full gore settings. Gore changes presentation only.
 - The current money rule is cosmetics and decorations only—never direct or indirect power. The first playable build has no purchases.
 - The current development budget is $0 while the owner is the only tester. Never activate a paid plan, automatic overage, billable resource, larger GitHub runner, or purchase without the owner's explicit later approval.
-- The source repository is approved to become public for free standard GitHub-hosted builds. Do not treat it as public or run a build until GitHub confirms the switch. After confirmation, public readers/forks receive no write, game-owner, server, signing, or developer-tool access. Never commit secrets or private player data, and never add an automatic public workflow trigger.
+- The source repository is public for free standard GitHub-hosted builds. Public readers/forks receive no write, game-owner, server, signing, or developer-tool access. Never commit secrets or private player data, and never add an automatic public workflow trigger.
 - Railway Hobby is the owner's preferred future online-test candidate and may become permanent after testing. It is not active, purchased, permanently chosen, or approved for spending yet; follow `docs/COST_DECISIONS.md` and obtain a fresh explicit budget cap immediately before activation.
 - Free services may be used only after confirming a hard zero-cost boundary and all security/privacy requirements; if that is impossible, prepare but do not activate the hosted service.
 - Keep secrets, signing material, and private player data out of the repository.

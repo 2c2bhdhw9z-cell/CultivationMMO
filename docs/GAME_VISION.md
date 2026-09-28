@@ -15,7 +15,7 @@ The long-term ambition is at least **1,000 players online at the same moment**, 
 - **Genre:** Cultivation life sandbox, action RPG, territory builder, and persistent MMO.
 - **Camera:** Third-person view behind the character.
 - **World:** Open, explorable 3D spaces rather than menu-only travel.
-- **Source repository direction:** Public after the verified visibility switch, so GitHub's standard hosted runners can build at $0. The initial online game world remains private to approved testers.
+- **Source repository:** Public and verified, so GitHub's standard hosted runners can build at $0. The initial online game world remains private to approved testers.
 - **Public-source boundary:** Anyone may read or fork the source and plans, but receives no repository write, game-owner, server, signing, or developer-tool access. Original project rights remain reserved under the repository license.
 - **First platform:** iPhone, delivered as an `.ipa` built in GitHub's cloud and privately installed with ESign.
 - **Private installation:** The owner uses ESign, not TrollStore or SideStore, and does not need the project designed around a seven-day signing limit.

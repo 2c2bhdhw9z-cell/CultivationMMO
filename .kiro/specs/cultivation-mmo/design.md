@@ -57,7 +57,7 @@ GitHub builds the app. A separate host runs the future online server and databas
 
 ### Current zero-cost gate
 
-The current owner-approved budget is **$0**. The source repository is approved to become public; after GitHub confirms the switch, standard `macos-latest` runner compute is free under GitHub's current rules. No paid plan, automatic overage, billable resource, larger/custom runner, Actions cache, or purchase may be activated until the owner explicitly changes that limit. Public source, workflow logs, and prerelease builds contain no secret or private player data.
+The current owner-approved budget is **$0**. The source repository is verified public; standard `macos-latest` runner compute is free under GitHub's current rules. No paid plan, automatic overage, billable resource, larger/custom runner, Actions cache, or purchase may be activated until the owner explicitly changes that limit. Public source, workflow logs, and prerelease builds contain no secret or private player data.
 
 The zero-cost preview checkpoint is intentionally reachable before hosted account and valley tasks. It uses a small in-process adapter, graybox area, touch movement/camera, one interaction, one combat-input target, and one meditation input. Those pieces are reusable, but the checkpoint is explicitly experimental and does not mark their full gameplay, persistence, online, or owner-console requirements complete.
 

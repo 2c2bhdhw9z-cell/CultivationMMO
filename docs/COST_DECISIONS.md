@@ -101,7 +101,7 @@ The offline preview never counts as proof of online multiplayer, remote saving, 
 Repository and owner evidence:
 
 - The owner-provided screenshot on September 28, 2026 shows GitHub Free, included usage covering the displayed metered usage, and no current payment due.
-- The repository's complete history passed a credential and private-PII scan before the public switch.
+- The repository is API-verified public; its complete history passed a credential and private-PII scan before the switch.
 - GitHub reports only one collaborator: the repository owner.
 - Actions is enabled, but the repository has zero workflow runs, zero artifacts, zero configured environments, and no committed workflow.
 - Default workflow-token access is read-only.
@@ -110,7 +110,7 @@ Repository and owner evidence:
 
 GitHub's [Actions billing guide](https://docs.github.com/en/billing/concepts/product-billing/github-actions) says standard GitHub-hosted runner use is free for public repositories. It separately warns that larger runners are charged and that Actions artifact/cache storage follows allowances and metered storage rules.
 
-**Decision:** After public visibility is verified, the first workflow may use only owner-authorized `workflow_dispatch` on the rolling standard `macos-latest` runner with its newest stable default Xcode; the owner may run it directly or explicitly ask the recognized Kiro integration to dispatch it. It cannot use automatic public triggers, beta/preview Xcode, larger runners, custom runner images, Actions cache, signing secrets, or paid services. It runs one build at a time with a 30-minute timeout.
+**Decision:** With public visibility verified, the first workflow may use only owner-authorized `workflow_dispatch` on the rolling standard `macos-latest` runner with its newest stable default Xcode; the owner may run it directly or explicitly ask the recognized Kiro integration to dispatch it. It cannot use automatic public triggers, beta/preview Xcode, larger runners, custom runner images, Actions cache, signing secrets, or paid services. It runs one build at a time with a 30-minute timeout.
 
 To avoid relying on Actions artifact storage, the workflow will publish the unsigned test `.ipa` as a clearly labeled public prerelease asset after the owner is warned that anyone can download it. GitHub's [release limits](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases) currently allow individual assets under 2 GiB and state no total release-size or bandwidth limit. Superseded technical previews should be deleted when no longer needed.
 

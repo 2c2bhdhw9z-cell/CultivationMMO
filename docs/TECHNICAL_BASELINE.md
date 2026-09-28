@@ -84,7 +84,7 @@ This exact unsigned path is a **hypothesis, not yet verified**. Godot's official
 
 ### Public visibility evidence
 
-At the time this public-ready commit is written, the visibility switch is approved but awaits GitHub confirmation. The final Task 1 commit must update this line after the API reports `public`.
+GitHub's API confirmed `visibility: public` and `private: false` on September 28, 2026. The collaborator API listed only `2c2bhdhw9z-cell` with write/administrative access.
 
 As of September 28, 2026:
 

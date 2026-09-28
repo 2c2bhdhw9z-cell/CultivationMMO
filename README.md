@@ -4,7 +4,7 @@ A provisional game vision and Kiro specification for a third-person, open-world 
 
 The project begins with a small playable iPhone build and is designed to grow over time. Every design decision is changeable.
 
-> **Public switch approved:** Once GitHub confirms the visibility change, anyone can read and fork this project. That will not grant permission to reuse the original game material or access owner/developer systems. See [`LICENSE`](LICENSE), [`SECURITY.md`](SECURITY.md), and [`docs/PUBLIC_REPOSITORY.md`](docs/PUBLIC_REPOSITORY.md).
+> **Public repository:** Anyone can now read and fork this project. That does not grant permission to reuse the original game material or access owner/developer systems. See [`LICENSE`](LICENSE), [`SECURITY.md`](SECURITY.md), and [`docs/PUBLIC_REPOSITORY.md`](docs/PUBLIC_REPOSITORY.md).
 
 ## Planning documents
 

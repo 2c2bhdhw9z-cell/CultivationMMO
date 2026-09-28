@@ -37,13 +37,16 @@ The first workflow may run only after GitHub confirms the repository is public a
 
 If the repository becomes private again, builds stop until private-repository usage and a $0 hard-stop budget are rechecked.
 
-## Current status before the visibility switch
+## Current status after the visibility switch
 
+- Repository visibility: public and API-verified
+- Repository collaborators with write access: owner only
 - Repository Actions runs: 0
 - Repository Actions artifacts: 0
 - Repository workflows: none
 - Paid project service activated: none
 - Railway activated: no
-- Public standard-runner build: allowed only after the visibility switch is verified
+- Public standard-runner build: permitted after Task 3 adds and verifies the required workflow safeguards
+- Private vulnerability reporting: not yet enabled; required before Task 3 publishes a workflow/build because the integration received HTTP 403
 
 External documentation was checked on September 28, 2026. Source material was paraphrased for compliance with licensing restrictions.
