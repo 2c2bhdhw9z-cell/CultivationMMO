@@ -5,6 +5,10 @@
 #[[file:../../../docs/GAME_VISION.md]]
 #[[file:../../../docs/OWNER_OPERATIONS_SECURITY.md]]
 #[[file:../../../docs/COST_DECISIONS.md]]
+#[[file:../../../docs/TECHNICAL_BASELINE.md]]
+#[[file:../../../docs/CONTROL_PLANE_INVENTORY.md]]
+#[[file:../../../docs/TEMPORARY_ASSET_LICENSES.md]]
+#[[file:../../../docs/OWNER_ACTIONS_CHECK.md]]
 
 ## Introduction
 
@@ -240,6 +244,8 @@ This first version does **not** attempt the full childhood experience, public MM
 3. THE SYSTEM SHALL use an ink-inspired effect for meditation, Qi, or breakthrough presentation.
 4. THE SYSTEM SHALL use a darker treatment for the cave or another dangerous location.
 5. Any temporary third-party asset SHALL have a recorded license that permits its project use and redistribution.
+6. BEFORE any build containing Godot Engine code is distributed to another person
+   THE PROJECT SHALL include the Godot copyright and MIT notice plus applicable official engine third-party notices.
 
 ## Requirement R15: Understandable mobile interface
 

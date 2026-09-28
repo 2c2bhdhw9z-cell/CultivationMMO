@@ -11,6 +11,9 @@ inclusion: always
 - Consult `docs/GAME_VISION.md` before changing gameplay, architecture, content, or scope.
 - Consult `docs/OWNER_OPERATIONS_SECURITY.md` before adding or changing any gameplay feature, service, developer tool, deployment, credential, backup, or privileged route.
 - Consult `docs/COST_DECISIONS.md` before choosing, activating, scaling, or paying for any hosted service.
+- Use `docs/TECHNICAL_BASELINE.md` for pinned engine, build, command-boundary, and provisional transport choices until a verified update replaces them.
+- Update `docs/CONTROL_PLANE_INVENTORY.md` before adding or changing any provider, identity, secret, environment, backup, deployment, or release access.
+- Do not add an external game asset or addon until `docs/TEMPORARY_ASSET_LICENSES.md` records and approves its exact license and redistribution rights.
 - Build a third-person 3D open-world cultivation MMO, beginning with a small iPhone `.ipa` and a private online valley.
 - Preserve the long-term direction: deep freedom, meaningful consequences, living NPCs, territory building, reincarnation, immortality, multiple power systems, and eventual Omniverse-scale growth.
 - Do not artificially equalize talent, birth, luck, power, opportunities, or outcomes. Apply fairness to consistent rules, security, moderation, payments, and essential protections.

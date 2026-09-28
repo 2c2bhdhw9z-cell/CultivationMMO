@@ -6,21 +6,27 @@
 #[[file:../../../docs/GAME_VISION.md]]
 #[[file:../../../docs/OWNER_OPERATIONS_SECURITY.md]]
 #[[file:../../../docs/COST_DECISIONS.md]]
+#[[file:../../../docs/TECHNICAL_BASELINE.md]]
+#[[file:../../../docs/CONTROL_PLANE_INVENTORY.md]]
+#[[file:../../../docs/TEMPORARY_ASSET_LICENSES.md]]
+#[[file:../../../docs/OWNER_ACTIONS_CHECK.md]]
 
 ## 1. Purpose
 
 This design turns the first-playable requirements into a small but expandable online game foundation. It does not try to implement the complete MMO vision.
 
-All technology choices below are provisional until a short technical setup task confirms that iOS cloud export, mobile performance, and the selected network transport work together.
+Task 1 pins the implementation baseline in `docs/TECHNICAL_BASELINE.md`. Task 3 still has to prove the real GitHub-to-ESign package, and Task 6 has to measure the online transport on Wi-Fi and cellular. Any item awaiting those tests is labeled provisional rather than assumed successful.
 
-## 2. Proposed technology
+## 2. Verified baseline and proposed services
 
 ### Client and world simulation
 
-- **Godot 4.x**, using GDScript for the first client
-- Third-person 3D mobile client
+- **Godot 4.7.2-stable standard build**, using GDScript
+- Mobile renderer over Metal, iOS arm64, prototype deployment target iOS 16+
+- Third-person 3D mobile client targeting a sustained 30 FPS default on the owner's iPhone 17 Pro Max
 - Data-driven resources for items, abilities, cultivation methods, NPC definitions, and world content
-- A headless Godot build for authoritative zone simulation when practical
+- The same Godot version exported in dedicated-server/headless mode for authoritative zone simulation
+- Strict JSON `GameplayCommandV1` for the first small prototype, replaceable behind a codec interface
 
 Godot is the current proposal because it is open source, avoids engine royalties, supports iOS export through macOS/Xcode, can produce headless servers, and keeps the project accessible without a locally owned computer.
 
@@ -30,18 +36,22 @@ Godot is the current proposal because it is open source, avoids engine royalties
 - An authoritative zone server for live movement, combat, gathering, duels, and building
 - PostgreSQL for persistent data
 - Container-based Linux deployment on a separate game-server host
-- Encrypted, authenticated transport between client and services
+- Encrypted, authenticated service connections
+- HTTPS for account/bootstrap and provisional `wss://` WebSocket transport for the first two-to-ten-player valley
 
-The first server targets two to ten testers. The boundaries are chosen so later versions can run many valley/region processes rather than forcing one machine to simulate an entire Omniverse.
+The first server targets two to ten testers. WSS is selected as the smallest Railway-compatible first test, not the permanent MMO transport. Task 6 must measure it on Wi-Fi and cellular; ENet/UDP remains the next candidate if WSS harms action response. Service and command boundaries allow the transport to change without rewriting cultivation, combat, inventory, or world rules.
 
 ### Cloud build
 
-- GitHub Actions on a hosted macOS runner
-- Godot iOS export followed by Xcode archive/package steps
-- Downloadable `.ipa` build artifact
-- Signing data, if used, loaded only from protected repository secrets
+- GitHub Actions on the standard `macos-15` hosted runner
+- Explicit Xcode 26.2 selection and version check
+- Pinned Godot 4.7.2 editor/templates with SHA-256 verification
+- Godot iOS export followed by a physical-device Xcode build and provisional unsigned ESign package step
+- Downloadable `.ipa` artifact retained for three days
+- Owner-only manual trigger, one concurrent build, and a 30-minute timeout
+- Signing data, if later used, loaded only from protected repository secrets
 
-GitHub builds the app. A separate host runs the online server and database.
+GitHub builds the app. A separate host runs the future online server and database. No workflow may run until the private GitHub budget check in `docs/OWNER_ACTIONS_CHECK.md` is complete.
 
 ### Current zero-cost gate
 
@@ -73,8 +83,10 @@ If a provider cannot enforce the current $0 limit, its deployment configuration 
 
 ```mermaid
 flowchart LR
-    P[iPhone Player] -->|HTTPS login and bootstrap| A[Account API]
-    P -->|Authenticated gameplay commands| Z[Authoritative Valley Server]
+    P[iPhone Player] --> C[Gameplay Command Port]
+    C -->|Offline preview| LA[In-process Authority Core]
+    C -->|Online wss| Z[Authoritative Valley Server]
+    P -->|HTTPS login and bootstrap| A[Account API]
     O[Owner iPhone] -->|Passkey and fresh confirmation| W[Separate Owner Console]
     W -->|Privileged command| M[Owner Control API]
     M --> A
@@ -82,10 +94,13 @@ flowchart LR
     A -->|Account and identity records| D[(PostgreSQL)]
     Z -->|Gameplay records| D
     M --> L[(Append-only Audit Trail)]
-    Z --> C[World Content Definitions]
+    Z --> WC[World Content Definitions]
+    LA --> WC
     G[GitHub Cloud Build] --> I[Downloadable IPA]
     I --> P
 ```
+
+The command port accepts the versioned envelopes defined in `docs/TECHNICAL_BASELINE.md`. Both adapters serialize, parse, validate, and dispatch through the same authority core. The offline adapter is not a UI shortcut and cannot directly mutate valuable state. Time, randomness, physics acceptance, damage, rewards, inventory, cultivation, and claims belong to the authority core.
 
 The client-facing account API accepts account, session, and character-creation commands only. It never accepts a client-provided gameplay save. The account API is the sole writer for account, invite, session, and character-identity records. Once a character enters a valley, that valley server holds a renewable ownership lease and is the sole writer for the character's active gameplay state, inventory, cultivation, claims, NPC effects, and duel state. Every valuable command carries a unique request identifier so safe retries cannot duplicate outcomes.
 
@@ -114,6 +129,7 @@ The initial implementation should use this shape:
 /
 ├── client/                  # Godot iOS game project
 │   ├── autoload/            # App-wide state and service adapters
+│   ├── authority/           # Command port plus in-process and WSS adapters
 │   ├── content/             # Data-driven items, abilities, NPCs, cultivation
 │   ├── scenes/
 │   │   ├── character/
@@ -127,7 +143,9 @@ The initial implementation should use this shape:
 │   ├── owner-control/       # Owner-only command authorization and audit
 │   └── database/            # Versioned schema changes
 ├── owner-console/           # Separate phone-friendly developer/operations UI
-├── shared/                  # Versioned network/content definitions
+├── shared/
+│   ├── protocol/v1/         # Strict command/result schemas and limits
+│   └── authority/           # Shared validators and authoritative handlers
 ├── docs/
 ├── .github/workflows/       # Reviewed cloud build definitions
 └── .kiro/specs/
@@ -239,7 +257,7 @@ Responsibilities:
 - Home claims and object placement
 - Periodic and event-driven persistence under a renewable character/zone write lease
 
-The valley server should run on a fixed simulation tick independent of rendering. Exact tick rates and transport are chosen after a Wi-Fi and cellular prototype spike.
+The valley server runs a fixed simulation independently of rendering. The initial value is 30 ticks per second, with movement intents capped at 20 per second and state updates starting at 15 per second. The first online adapter uses authenticated WSS with strict TLS verification, a five-second authentication timeout, a 15-second foreground heartbeat, bounded queues, sequence-based stale movement rejection, and reconnect backoff. Task 6 measures and may replace these values after real Wi-Fi and cellular tests.
 
 ### 6.3 Persistence and write ownership
 
@@ -475,7 +493,7 @@ The prototype must show all four visual ideas in a restrained way:
 - Ink-like Qi and breakthrough effect
 - Dark cave atmosphere
 
-Placeholder assets are allowed only with a recorded redistribution-compatible license. Original names, story, symbols, and world details should replace generic references as the vision develops.
+No outside game-content asset is selected for the technical checkpoint. It uses project-authored primitive meshes, materials, interface shapes, and generated test tones. Every later external asset must be approved first in `docs/TEMPORARY_ASSET_LICENSES.md`; a download being free is not enough. Original names, story, symbols, and world details must not copy the works used as inspiration.
 
 Audio needs basic footsteps, interaction, combat impact, ambient world, and cultivation feedback. Music can remain minimal for the first slice.
 

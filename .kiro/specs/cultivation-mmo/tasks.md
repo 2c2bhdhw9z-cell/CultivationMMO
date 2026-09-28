@@ -6,6 +6,10 @@
 #[[file:design.md]]
 #[[file:../../../docs/OWNER_OPERATIONS_SECURITY.md]]
 #[[file:../../../docs/COST_DECISIONS.md]]
+#[[file:../../../docs/TECHNICAL_BASELINE.md]]
+#[[file:../../../docs/CONTROL_PLANE_INVENTORY.md]]
+#[[file:../../../docs/TEMPORARY_ASSET_LICENSES.md]]
+#[[file:../../../docs/OWNER_ACTIONS_CHECK.md]]
 
 > All tasks are provisional. If the game direction changes, update the requirements and design before continuing implementation.
 
@@ -14,14 +18,15 @@
 A gameplay or service task cannot be checked off until its matching row in `docs/OWNER_OPERATIONS_SECURITY.md` has working owner inspection, diagnostics, configuration, safe repair/reset, phone UI, authorization, audit, and verification—or a written reason that one of those controls does not apply. Owner tools are built with each feature, not added after the game is finished.
 
 - [ ] 1. Record the technical and security baseline
-  - Confirm the Godot version available for reproducible iOS and headless exports.
-  - Compare the smallest viable authenticated real-time transport on Wi-Fi and cellular networks.
-  - Choose phone-operable private hosts for the servers, database, identity, audit, backups, monitoring, and owner console only if they can enforce the current $0 limit; otherwise keep Railway Hobby as the preferred later candidate without activating it and compare alternatives only when needed.
-  - Verify current GitHub included usage and every candidate service's hard spending controls, free limits, sleep/expiry behavior, data handling, and deletion path in plain English.
-  - Create and maintain `docs/COST_DECISIONS.md`, listing what continues at $0, Railway's current terms, why hosting may be needed, free limitations, expected one-time/monthly cost, enforceable hard caps, test results, and exit options; present it before ever asking for nonzero approval.
-  - Inventory every external control plane and document its owner-only human access, passkey/MFA, machine identities, audit, revocation, and $0 hard limit.
-  - Define exact owner enrollment, passkey rotation, lost-phone recovery, environment isolation, backup retention, and maintenance-executor ceremonies.
-  - Record licenses for every selected temporary asset.
+  - **Status:** Technical research and records are complete; the task remains open only for the private owner check in `docs/OWNER_ACTIONS_CHECK.md`.
+  - [x] Pin Godot 4.7.2, its official download digests, macos-15/Xcode 26.2, iOS/Metal settings, and the Linux headless path in `docs/TECHNICAL_BASELINE.md`.
+  - [x] Compare secure WebSocket and ENet/UDP; choose WSS provisionally for the first two-to-ten-player Railway test and define the later Wi-Fi/cellular measurement.
+  - [x] Keep every runtime host inactive at $0; retain Railway Hobby as the preferred later paid-test candidate without treating it as activation or a permanent choice.
+  - [x] Record current official GitHub/Railway terms, the $0 work path, provisional cost estimate, documented caps and unknown dashboard limit floor, exit plan, and recheck rules in `docs/COST_DECISIONS.md`.
+  - [x] Inventory every active, inactive, and planned external control plane plus owner-only access, machine identity, audit, revocation, cost, and deletion status in `docs/CONTROL_PLANE_INVENTORY.md`.
+  - [x] Define numeric owner enrollment, passkey rotation, lost-phone recovery, test/live isolation, backup retention, audit, and maintenance defaults.
+  - [x] Record that no external game-content asset is selected and establish the approval ledger in `docs/TEMPORARY_ASSET_LICENSES.md`.
+  - [ ] Owner confirms the GitHub account plan, total/current/remaining Actions allowance and reset date, payment-method presence (yes/no only), `$0` hard-stop budget, included-usage alerts, passkey, 2FA, safely stored recovery method, recognized repository/app access, and absence of unknown Actions secrets, variables, environments, deployment records, or connections—without sharing any secret or payment detail.
   - Requirements: R1, R2, R12, R14, R16, R17, R19, R20, R21, R22
   - Dependencies: None
 
@@ -43,6 +48,7 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Give artifacts clear environment, type, version, and commit names.
   - Make failure logs understandable and obtain signing/deployment access only through short-lived or protected secrets.
   - Add owner inspection for builds, versions, failures, artifacts, and release compatibility, plus approved start/stop/rollback controls and audit.
+  - Add the root `THIRD_PARTY_NOTICES.md` and bundle the Godot copyright, MIT terms, and applicable official engine third-party notices in every distributed package, including the first private tester build.
   - Perform the first ESign installation and non-owner artifact-inspection check before deeper gameplay.
   - Requirements: R1, R19, R20, R21, R22
   - Dependencies: 2
@@ -54,7 +60,7 @@ A gameplay or service task cannot be checked off until its matching row in `docs
     - Build through the monitored included GitHub allowance, install through ESign, and stop before any charge.
     - Treat this as an experimental checkpoint, not completion of the full gameplay, online, persistence, or owner-control requirements.
     - Requirements: R1, R4, R5, R15, R16, R21, R22
-    - Dependencies: 3
+    - Dependencies: 2; runs as the final checkpoint within Task 3
 
 - [ ] 4. Build the mobile app shell and settings
   - Add boot, loading, private sign-in, retry, version-mismatch, and settings screens.
@@ -88,7 +94,7 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Add owner inspection for sessions, latency, protocol, server state, leases, connection errors, and health; add bounded drain, restart, safe disconnect, and lease-repair controls.
   - Confirm private player connectivity over Wi-Fi and cellular and owner operation through the iPhone console.
   - Requirements: R2, R12, R13, R16, R17, R19, R20, R21, R22
-  - Dependencies: 3, 4, 5
+  - Dependencies: 3, 3.1, 4, 5
 
 - [ ] 7. Implement character creation and durable character loading
   - Add the young-adult 3D preview, name rules, and initial appearance choices.

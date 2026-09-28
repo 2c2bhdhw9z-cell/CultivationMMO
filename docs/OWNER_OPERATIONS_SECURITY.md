@@ -245,3 +245,18 @@ The console expands with the game. The current long-term tool families are:
 - **Scale and reliability:** region load, player counts, queues, latency, bandwidth, database pressure, stuck jobs, service health, capacity changes, draining, failover, and disaster recovery.
 
 Every future spec must add its new feature to this catalog and the operations matrix. A tool family may grow, but it may not bypass the sole-owner authorization, environment isolation, command limits, audit, backup, and release gates in this document.
+
+## 14. Task 1 concrete control record
+
+The dated inventory and numeric private-prototype defaults are maintained in `docs/CONTROL_PLANE_INVENTORY.md`. It is binding alongside this document.
+
+Current facts:
+
+- GitHub and its Kiro integration are the only active project control planes.
+- No game runtime, Railway project, database, owner console, game identity provider, audit store, backup store, monitoring provider, domain, Apple project, or public distribution entry is active.
+- No owner-console identity exists yet, so nobody—including the owner—currently has a game developer menu or game-server privilege to leak.
+- GitHub account billing, plan, payment-method presence, allowance, passkey, 2FA, recovery, repository secrets, and deployment-record status are not exposed through the integration and require the owner-only check in `docs/OWNER_ACTIONS_CHECK.md` before the first workflow.
+- The future test/live enrollment values, session times, recovery delays, isolation rules, backup retention, recovery targets, and maintenance limits are recorded in the inventory.
+- Exact domains, RP IDs, alert destinations, and provider project IDs remain intentionally blank; activation is blocked until they are selected and written down.
+
+A blank value is a deployment blocker, not permission to choose a value silently. Never request or record the owner's passwords, recovery codes, private passkeys, payment details, signing certificates, provisioning profiles, or private keys.
