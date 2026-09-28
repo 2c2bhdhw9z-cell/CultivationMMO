@@ -46,6 +46,25 @@ The files and digests come from the official [Godot 4.7.2 build release](https:/
 
 Godot documents both `--headless` and a dedicated-server export mode. Dedicated-server exports can strip visual resources and add a server feature tag. The first server will use that mode rather than a graphical editor binary. See [Godot's dedicated-server export guide](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_dedicated_servers.html).
 
+### Task 2 implementation baseline
+
+| Part | Current choice |
+|---|---|
+| Godot project root | Repository root `project.godot` so client and zone share `shared/` authority code |
+| Client main scene | `client/scenes/ui/boot.tscn` |
+| Headless zone scene | `server/zone/main.tscn` |
+| Local service language | Go `1.25.1`, pinned in `server/go.mod` |
+| Go dependencies | Standard library only; no external module |
+| Local API addresses | Account API `127.0.0.1:8080`; owner-control `127.0.0.1:8081` |
+| Owner-console source | Vanilla HTML/CSS; no JavaScript dependency, package manager, CDN, or source map |
+| Database | PostgreSQL remains intended, but exact version, driver, host, and migration tool are unselected and inactive |
+| Privileged registry | V1 machine-readable registry, locked with zero commands |
+| Audit | Interface plus deliberately unavailable sink; real mutation remains impossible |
+
+The root Godot layout prevents copied client/server authority logic. Future export presets must explicitly select the client or dedicated-server entry point and prove that Go services, owner-console files, documentation, and protected source are absent from the `.ipa`.
+
+Go 1.25.1 is available in the current development environment and is used only for dependency-free local service shells. Go binary distribution must retain the Go license notice recorded in `THIRD_PARTY_NOTICES.md`. PostgreSQL implementation waits for Task 5 rather than inventing a version or schema in Task 2.
+
 ## 2. Pinned cloud-build baseline
 
 ### Runner and Xcode
@@ -173,7 +192,7 @@ The authenticated remote session supplies the actor identity. A client cannot ch
 - Never decode network-provided engine objects. `SceneMultiplayer.allow_object_decoding` remains false because Godot warns that decoded objects can execute code. See [SceneMultiplayer](https://docs.godotengine.org/en/stable/classes/class_scenemultiplayer.html).
 - Use string identifiers and explicitly validate integer fields because JSON does not preserve a separate integer number type in Godot.
 - The authority owns time, randomness, physics validation, inventory, damage, cultivation outcomes, claims, and state versions.
-- Cache completed command IDs for safe retry. A repeated ID returns the original result and cannot grant a second reward.
+- The current per-actor cache makes immediate retries of the non-mutating skeleton ping return the original result. It limits each actor to 256 entries and one core to 64 actor caches; Task 6 must call `release_actor` on disconnect/expiry. Before any valuable handler is registered, a durable idempotency ledger must cover cache eviction, process restart, and zone transfer so a repeated ID cannot grant a second reward.
 - Reject stale state versions when an action could overwrite newer state.
 - The in-process adapter must serialize and parse through the same V1 codec and call the same validators as the remote adapter; it cannot receive a private shortcut to mutate state.
 - Keep codec and transport interfaces replaceable. A compact binary codec can replace JSON later without changing command meaning.

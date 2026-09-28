@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cultivationmmo.invalid/protocol/v1/gameplay-result.schema.json",
+  "title": "GameplayResultV1",
+  "description": "Runtime additionally enforces a 16 KiB UTF-8 byte limit, eight nested levels, duplicate-key rejection, and UTF-8 byte-based string limits.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "type",
+    "event_id",
+    "command_id",
+    "server_sequence",
+    "state_version",
+    "status",
+    "error_code",
+    "payload"
+  ],
+  "properties": {
+    "protocol": { "const": 1 },
+    "type": { "$ref": "#/$defs/typeIdentifier" },
+    "event_id": { "$ref": "#/$defs/identifier" },
+    "command_id": { "type": "string", "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]*$" },
+    "server_sequence": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "state_version": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "status": { "enum": ["accepted", "rejected"] },
+    "error_code": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/typeIdentifier" }
+      ]
+    },
+    "payload": { "$ref": "#/$defs/jsonObject" }
+  },
+  "$defs": {
+    "identifier": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$" },
+    "typeIdentifier": { "type": "string", "minLength": 1, "maxLength": 96, "pattern": "^[A-Za-z0-9._:-]+$" },
+    "jsonValue": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "boolean" },
+        { "type": "number", "minimum": -9007199254740991, "maximum": 9007199254740991 },
+        { "type": "string", "maxLength": 4096 },
+        { "type": "array", "maxItems": 256, "items": { "$ref": "#/$defs/jsonValue" } },
+        { "$ref": "#/$defs/jsonObject" }
+      ]
+    },
+    "jsonObject": {
+      "type": "object",
+      "maxProperties": 256,
+      "propertyNames": { "maxLength": 128 },
+      "additionalProperties": { "$ref": "#/$defs/jsonValue" }
+    }
+  }
+}

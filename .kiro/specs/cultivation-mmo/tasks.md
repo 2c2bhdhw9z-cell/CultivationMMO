@@ -32,12 +32,13 @@ A gameplay or service task cannot be checked off until its matching row in `docs
   - Requirements: R1, R2, R12, R14, R16, R17, R19, R20, R21, R22, R23
   - Dependencies: None
 
-- [ ] 2. Create the multi-part project skeleton
-  - Create `client`, `server/api`, `server/zone`, `server/owner-control`, `server/maintenance`, `server/database`, `owner-console`, and `shared` foundations described by the design.
-  - Add a bootable Godot client shell, startable empty server processes, and a separately protected phone-readable owner-console shell.
-  - Add the privileged command registry, per-feature operations-matrix format, and independent audit interface before gameplay features.
-  - Add plain setup documentation that does not assume the owner understands code.
-  - Keep secrets, owner credentials, source maps, and developer UI out of committed or downloadable player artifacts.
+- [x] 2. Create the multi-part project skeleton
+  - **Status:** Complete and locally verified; evidence is in `docs/verification/TASK_2.md`.
+  - [x] Create the repository-root Godot project plus `client`, `server/api`, `server/zone`, `server/owner-control`, `server/maintenance`, `server/database`, `owner-console`, and `shared` foundations described by the design.
+  - [x] Add a bootable Godot client shell, self-checking headless zone, startable loopback API/owner-control shells, dormant maintenance/database checkers, and a separate phone-readable protected console source shell.
+  - [x] Add the strict GameplayCommandV1 codec, shared authority core, empty privileged command registry, machine-readable per-feature operations matrix, unavailable audit interface, and empty maintenance-plan registry.
+  - [x] Add plain-English structure, setup, component, licensing, verification, and not-yet-built documentation.
+  - [x] Keep all hosted services inactive and keep secrets, owner credentials, source maps, external assets, workflows, and developer UI out of player source/artifacts.
   - Requirements: R1, R2, R17, R20, R21, R23
   - Dependencies: 1
 
@@ -94,7 +95,7 @@ A gameplay or service task cannot be checked off until its matching row in `docs
 - [ ] 6. Connect the client to an authoritative hosted valley
   - Establish authenticated live sessions between the Godot client and hosted valley server, reusing the versioned command interface proven by checkpoint 3.1.
   - Do not activate hosting unless it enforces $0 or the owner has explicitly approved a later hard budget cap.
-  - Add protocol checks, reconnect, server-controlled spawning, interest management skeleton, request IDs, and a single-writer gameplay lease.
+  - Add protocol checks, reconnect, server-controlled spawning, interest management skeleton, request IDs, a single-writer gameplay lease, bounded actor IDs, and guaranteed `AuthorityCore.release_actor` cleanup on disconnect/session expiry.
   - Implement private service identity and replay-resistant owner command envelopes; downstream services independently reject direct or invalid privileged calls.
   - Add owner inspection for sessions, latency, protocol, server state, leases, connection errors, and health; add bounded drain, restart, safe disconnect, and lease-repair controls.
   - Confirm private player connectivity over Wi-Fi and cellular and owner operation through the iPhone console.

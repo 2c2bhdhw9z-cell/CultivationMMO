@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cultivationmmo.invalid/maintenance/v1/plans.schema.json",
+  "title": "MaintenancePlansV1Task2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "plans"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "status": { "const": "dormant" },
+    "plans": { "type": "array", "maxItems": 0 }
+  }
+}

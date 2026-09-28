@@ -1,0 +1,22 @@
+{
+  "protocol": 1,
+  "max_message_bytes": 16384,
+  "max_depth": 8,
+  "max_collection_items": 256,
+  "max_string_bytes": 4096,
+  "max_identifier_bytes": 128,
+  "max_safe_integer": 9007199254740991,
+  "max_actor_id_bytes": 128,
+  "max_active_actor_caches": 64,
+  "cache_entries_per_actor": 256,
+  "forbidden_payload_identity_fields": [
+    "actor",
+    "actor_id",
+    "authenticated_actor",
+    "owner_subject",
+    "session_actor_id"
+  ],
+  "implemented_command_types": [
+    "skeleton.ping"
+  ]
+}

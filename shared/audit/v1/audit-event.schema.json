@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cultivationmmo.invalid/audit/v1/audit-event.schema.json",
+  "title": "OwnerAuditEventV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "correlation_id",
+    "actor",
+    "environment",
+    "service",
+    "action",
+    "target",
+    "reason",
+    "outcome",
+    "occurred_at"
+  ],
+  "properties": {
+    "correlation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "actor": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "environment": { "enum": ["local", "test", "live"] },
+    "service": { "type": "string", "minLength": 1, "maxLength": 96 },
+    "action": { "type": "string", "minLength": 1, "maxLength": 96 },
+    "target": { "type": "string", "maxLength": 256 },
+    "reason": { "type": "string", "maxLength": 512 },
+    "outcome": { "enum": ["accepted", "denied", "failed", "completed"] },
+    "occurred_at": { "type": "string", "format": "date-time" }
+  }
+}

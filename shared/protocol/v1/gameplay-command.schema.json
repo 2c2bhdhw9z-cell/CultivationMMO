@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cultivationmmo.invalid/protocol/v1/gameplay-command.schema.json",
+  "title": "GameplayCommandV1",
+  "description": "Runtime additionally enforces a 16 KiB UTF-8 byte limit, eight nested levels, duplicate-key rejection, and UTF-8 byte-based string limits.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "type",
+    "command_id",
+    "client_sequence",
+    "expected_state_version",
+    "payload"
+  ],
+  "properties": {
+    "protocol": { "const": 1 },
+    "type": { "$ref": "#/$defs/typeIdentifier" },
+    "command_id": { "$ref": "#/$defs/identifier" },
+    "client_sequence": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "expected_state_version": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "payload": { "$ref": "#/$defs/payloadObject" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "skeleton.ping" } }, "required": ["type"] },
+      "then": { "properties": { "payload": { "maxProperties": 0 } } }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "typeIdentifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 96,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "boundedNumber": {
+      "type": "number",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
+    },
+    "jsonValue": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "boolean" },
+        { "$ref": "#/$defs/boundedNumber" },
+        { "type": "string", "maxLength": 4096 },
+        {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/jsonValue" }
+        },
+        { "$ref": "#/$defs/payloadObject" }
+      ]
+    },
+    "payloadObject": {
+      "type": "object",
+      "maxProperties": 256,
+      "propertyNames": {
+        "maxLength": 128,
+        "not": {
+          "pattern": "^(?:[Aa][Cc][Tt][Oo][Rr]|[Aa][Cc][Tt][Oo][Rr]_[Ii][Dd]|[Aa][Uu][Tt][Hh][Ee][Nn][Tt][Ii][Cc][Aa][Tt][Ee][Dd]_[Aa][Cc][Tt][Oo][Rr]|[Oo][Ww][Nn][Ee][Rr]_[Ss][Uu][Bb][Jj][Ee][Cc][Tt]|[Ss][Ee][Ss][Ss][Ii][Oo][Nn]_[Aa][Cc][Tt][Oo][Rr]_[Ii][Dd])$"
+        }
+      },
+      "additionalProperties": { "$ref": "#/$defs/jsonValue" }
+    }
+  }
+}

@@ -31,9 +31,11 @@ Task 1 pins the implementation baseline in `docs/TECHNICAL_BASELINE.md`. Task 3 
 
 Godot is the current proposal because it is open source, avoids engine royalties, supports iOS export through macOS/Xcode, can produce headless servers, and keeps the project accessible without a locally owned computer.
 
-### Online services
+### Online services and local shells
 
-- A small HTTPS account and persistence service
+- Go `1.25.1` standard library for the local account API, owner-control, maintenance, and database checkers; no third-party Go module
+- Vanilla HTML/CSS protected owner-console source; no package manager, CDN, JavaScript dependency, or source map
+- A small HTTPS account and persistence service in later tasks
 - An authoritative zone server for live movement, combat, gathering, duels, and building
 - PostgreSQL for persistent data
 - Container-based Linux deployment on a separate game-server host
@@ -129,31 +131,40 @@ The initial implementation should use this shape:
 
 ```text
 /
-├── client/                  # Godot iOS game project
-│   ├── autoload/            # App-wide state and service adapters
-│   ├── authority/           # Command port plus in-process and WSS adapters
-│   ├── content/             # Data-driven items, abilities, NPCs, cultivation
+├── project.godot             # Shared Godot root for client and zone
+├── client/
+│   ├── autoload/             # App-wide state
+│   ├── authority/            # Command port plus in-process and WSS adapters
+│   ├── content/              # Data-driven game content
 │   ├── scenes/
 │   │   ├── character/
 │   │   ├── combat/
 │   │   ├── ui/
 │   │   └── world/starter_valley/
-│   └── shaders/             # Ink, Qi, and gore-level presentation
+│   └── shaders/
 ├── server/
-│   ├── api/                 # Account and persistence service
-│   ├── zone/                # Authoritative valley simulation
-│   ├── owner-control/       # Owner-only command authorization and audit
-│   └── database/            # Versioned schema changes
-├── owner-console/           # Separate phone-friendly developer/operations UI
+│   ├── api/                  # Loopback account API shell
+│   ├── zone/                 # Shared-project headless Godot zone
+│   ├── owner-control/        # Locked owner-command gateway
+│   ├── maintenance/          # Dormant reviewed-plan executor
+│   ├── database/             # Unconfigured migration checker
+│   └── internal/             # Go safety contracts
+├── owner-console/
+│   ├── public/               # Generic unauthenticated 404
+│   └── protected/            # Source never served before authorization
 ├── shared/
-│   ├── protocol/v1/         # Strict command/result schemas and limits
-│   └── authority/           # Shared validators and authoritative handlers
+│   ├── protocol/v1/          # Strict gameplay schemas, codec, and limits
+│   ├── authority/            # Shared Godot authority core
+│   ├── owner-control/v1/     # Empty locked privileged registry
+│   ├── audit/v1/             # Independent audit contract
+│   ├── maintenance/v1/       # Empty repair-plan registry
+│   └── operations/v1/        # Machine-readable feature controls
 ├── docs/
-├── .github/workflows/       # Reviewed cloud build definitions
+├── .github/workflows/        # Task 3 only; currently absent
 └── .kiro/specs/
 ```
 
-The project should first create skeleton implementations in this structure, confirm that the client, server, and cloud build can connect, and only then flesh out full prototype mechanics.
+Task 2 verifies these shells and contracts locally only. Task 3 separately creates and verifies the cloud/iPhone build after private vulnerability reporting is enabled; Task 6 later connects a hosted valley.
 
 ## 5. Client components
 

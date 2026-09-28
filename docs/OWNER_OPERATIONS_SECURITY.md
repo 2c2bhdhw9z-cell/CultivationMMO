@@ -178,6 +178,13 @@ A task cannot be marked complete until its row is implemented and verified. “N
 
 | Feature | Owner can inspect/diagnose | Owner can configure/repair safely | Required evidence |
 |---|---|---|---|
+| Task 2 client boot shell | Local status screen, build version, and self-check result | Source-controlled constants; remove generated import cache only | Godot parses; local ping succeeds; no owner UI, endpoint, account, or world |
+| Task 2 gameplay protocol/authority | V1 schemas, limits, typed errors, state version, and duplicate result | Reviewed handler registration; restart clears only local skeleton cache | Same codec/core used by client and zone; malformed/unknown/unauthenticated input rejects |
+| Task 2 API and zone lifecycle | Loopback health/readiness, component version, parser/process errors | Safe local start/stop; no hosted configuration or durable state | API refuses non-loopback; zone has no listener; both self-check |
+| Task 2 owner-control and console source | Empty registry, feature manifest, generic 404, unavailable audit status | No command/identity exists; protected source is never served | Commands=0; protected routes 404; console source absent from client |
+| Task 2 database foundation | Unconfigured version and zero-migration manifest | No connection, driver, query, or repair exists | Checker reports configured=false and attempts no connection |
+| Task 2 maintenance foundation | Dormant status, zero-plan manifest, no listener | No executable repair; normal invocation refuses | Self-check reports plans=0; no SQL, shell, credential, or listener |
+| Task 2 audit foundation | Interface health and stable unavailable result | No sink can be selected until Task 5/19 security work | Append fails closed; no privileged mutation exists |
 | Builds and releases | Commit, version, artifact type, dependency and failure logs | Start approved build, stop release, select test/live-compatible version, rollback | Tester artifact contains no dev UI; artifact and secret scan passes |
 | Services and database | Health, latency, errors, protocol, migration, connection pool, costs | Deploy, drain, restart, migrate, backup, restore, rollback, enter maintenance | Phone operation, test restore, outage-repair exercise |
 | Accounts and sessions | Invite, account status, active sessions, denials | Create/revoke invite, suspend test account, revoke sessions | Non-owner and player-recovery denial evidence |
@@ -253,10 +260,11 @@ The dated inventory and numeric private-prototype defaults are maintained in `do
 Current facts:
 
 - GitHub and its Kiro integration are the only active project control planes; the source repository is API-verified public while only the owner appears in the collaborator list.
-- No game runtime, Railway project, database, owner console, game identity provider, audit store, backup store, monitoring provider, domain, Apple project, or public distribution entry is active.
-- No owner-console identity exists yet, so nobody—including the owner—currently has a game developer menu or game-server privilege to leak.
+- No hosted game runtime, Railway project, live database, deployed owner console, game identity provider, external audit store, backup store, monitoring provider, domain, Apple project, or public build exists.
+- Local Task 2 client/zone/API/owner-control/database/maintenance source shells exist, but have no online service, owner identity, privileged command, durable audit, database connection, or valuable state.
 - GitHub Free and no-current-payment-due status were confirmed by the owner's screenshot; passkey, 2FA, recovery, repository-secret, and deployment-record details remain private and should be reviewed before adding secrets or online services, but do not block a public standard-runner unsigned build.
 - The future test/live enrollment values, session times, recovery delays, isolation rules, backup retention, recovery targets, and maintenance limits are recorded in the inventory.
 - Exact domains, RP IDs, alert destinations, and provider project IDs remain intentionally blank; activation is blocked until they are selected and written down.
+- Task 2 operations coverage is machine-readable in `shared/operations/v1/features.json`; its local and not-applicable reasons supplement the matrix below until real hosted controls exist.
 
 A blank value is a deployment blocker, not permission to choose a value silently. Never request or record the owner's passwords, recovery codes, private passkeys, payment details, signing certificates, provisioning profiles, or private keys.

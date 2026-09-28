@@ -36,6 +36,12 @@ credentials/
 .DS_Store
 Thumbs.db
 
+# Go generated output
+server/bin/
+server/coverage/
+*.test
+coverage.out
+
 # Editors
 .idea/
 .vscode/

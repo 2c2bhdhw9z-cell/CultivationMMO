@@ -1,0 +1,31 @@
+; CultivationMMO Godot project.
+; Generated files belong in .godot/ and are not committed.
+config_version=5
+
+[application]
+
+config/name="CultivationMMO"
+run/main_scene="res://client/scenes/ui/boot.tscn"
+config/features=PackedStringArray("4.7", "Mobile")
+
+[autoload]
+
+AppState="*res://client/autoload/app_state.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+
+[rendering]
+
+renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="mobile"
+environment/defaults/default_clear_color=Color(0.025, 0.035, 0.055, 1)
+
+[debug]
+
+settings/stdout/print_fps=false

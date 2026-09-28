@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cultivationmmo.invalid/database/v1/manifest.schema.json",
+  "title": "DatabaseMigrationManifestV1Task2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "database", "migrations"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "status": { "const": "unconfigured" },
+    "database": { "const": "postgresql-version-unselected" },
+    "migrations": { "type": "array", "maxItems": 0 }
+  }
+}

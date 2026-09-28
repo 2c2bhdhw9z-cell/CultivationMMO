@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "features": [
+    {
+      "feature_id": "skeleton.client_boot",
+      "inspect": { "status": "local", "method": "Boot screen and CLIENT_SELF_CHECK output" },
+      "diagnose": { "status": "local", "method": "Godot parser and self-check exit code" },
+      "configure": { "status": "local", "method": "Versioned project.godot and source constants" },
+      "repair_reset": { "status": "local", "method": "Remove generated .godot cache and rerun self-check" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "Task 2 is local source only; Task 3 owns the iPhone package" },
+      "authorization": { "status": "not_applicable", "method": "", "reason": "The boot shell has no account or valuable mutation" },
+      "audit": { "status": "not_applicable", "method": "", "reason": "The boot shell has no privileged action" },
+      "verify": { "status": "local", "method": "Godot headless client self-check" }
+    },
+    {
+      "feature_id": "skeleton.gameplay_protocol",
+      "inspect": { "status": "local", "method": "Versioned JSON schemas and limits file" },
+      "diagnose": { "status": "local", "method": "Typed codec error codes" },
+      "configure": { "status": "local", "method": "Reviewed protocol constants and schemas" },
+      "repair_reset": { "status": "not_applicable", "method": "", "reason": "The stateless codec has no state to repair" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "Protocol internals are not a player or owner menu" },
+      "authorization": { "status": "local", "method": "Session supplies actor; command cannot choose actor" },
+      "audit": { "status": "not_applicable", "method": "", "reason": "Gameplay protocol validation is not a privileged mutation" },
+      "verify": { "status": "local", "method": "Client and zone self-checks use the same codec" }
+    },
+    {
+      "feature_id": "skeleton.authority_core",
+      "inspect": { "status": "local", "method": "Sanitized self-check status and source review" },
+      "diagnose": { "status": "local", "method": "Typed rejection codes and process exit code" },
+      "configure": { "status": "local", "method": "Explicit command handler registration in source" },
+      "repair_reset": { "status": "local", "method": "Release one actor cache or restart; no durable state exists" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "No valuable authority state or deployed owner console exists in Task 2" },
+      "authorization": { "status": "local", "method": "Missing session actor rejects before dispatch" },
+      "audit": { "status": "not_applicable", "method": "", "reason": "Only non-mutating skeleton.ping is implemented" },
+      "verify": { "status": "local", "method": "Duplicate, collision, cross-actor eviction, capacity, release, and payload identity self-checks" }
+    },
+    {
+      "feature_id": "skeleton.zone",
+      "inspect": { "status": "local", "method": "ZONE_SELF_CHECK output" },
+      "diagnose": { "status": "local", "method": "Godot parser and typed authority errors" },
+      "configure": { "status": "local", "method": "Versioned local scene and constants" },
+      "repair_reset": { "status": "local", "method": "Clean restart; no durable state exists" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "The zone has no listener, hosted process, or valuable state in Task 2" },
+      "authorization": { "status": "local", "method": "No listener; self-check supplies fixed local actor" },
+      "audit": { "status": "not_applicable", "method": "", "reason": "No privileged or valuable write exists" },
+      "verify": { "status": "local", "method": "Godot headless zone self-check" }
+    },
+    {
+      "feature_id": "skeleton.account_api",
+      "inspect": { "status": "local", "method": "Loopback /healthz and version output" },
+      "diagnose": { "status": "local", "method": "Loopback /readyz reason and process errors" },
+      "configure": { "status": "local", "method": "Loopback listen flag only" },
+      "repair_reset": { "status": "local", "method": "Graceful local restart; no state exists" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "The loopback API has no account, route, hosted process, or state" },
+      "authorization": { "status": "local", "method": "All account and world routes return generic 404" },
+      "audit": { "status": "not_applicable", "method": "", "reason": "No account or mutation route exists" },
+      "verify": { "status": "local", "method": "Go self-check and non-loopback refusal" }
+    },
+    {
+      "feature_id": "skeleton.owner_control",
+      "inspect": { "status": "local", "method": "Sanitized loopback health and registry count" },
+      "diagnose": { "status": "local", "method": "Registry/matrix validation errors" },
+      "configure": { "status": "local", "method": "Empty versioned registry only" },
+      "repair_reset": { "status": "not_applicable", "method": "", "reason": "No owner identity, command, or state exists" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "The owner-control skeleton has no owner identity, command, hosted service, or state" },
+      "authorization": { "status": "local", "method": "No owner identity and every protected route returns 404" },
+      "audit": { "status": "local", "method": "UnavailableSink must fail closed" },
+      "verify": { "status": "local", "method": "Go self-check confirms commands=0 and protected-assets=unserved" }
+    },
+    {
+      "feature_id": "skeleton.audit",
+      "inspect": { "status": "local", "method": "Audit health returns unavailable" },
+      "diagnose": { "status": "local", "method": "Stable ErrUnavailable result" },
+      "configure": { "status": "not_applicable", "method": "", "reason": "No durable audit provider or sink is selected in Task 2" },
+      "repair_reset": { "status": "not_applicable", "method": "", "reason": "No audit data is created by this sink" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "No audit event or durable store exists to display in Task 2" },
+      "authorization": { "status": "not_applicable", "method": "", "reason": "The unavailable adapter accepts no read or write" },
+      "audit": { "status": "local", "method": "Unavailable append cannot authorize a mutation" },
+      "verify": { "status": "local", "method": "Owner-control self-check requires ErrUnavailable" }
+    },
+    {
+      "feature_id": "skeleton.maintenance",
+      "inspect": { "status": "local", "method": "Self-check reports plans=0 and listener=none" },
+      "diagnose": { "status": "local", "method": "Manifest and exit-code errors" },
+      "configure": { "status": "local", "method": "Empty committed plan manifest" },
+      "repair_reset": { "status": "not_applicable", "method": "", "reason": "No executable repair plan or state exists" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "Maintenance has no executable plan, identity, listener, or state in Task 2" },
+      "authorization": { "status": "local", "method": "Normal invocation refuses; no listener or credential" },
+      "audit": { "status": "not_applicable", "method": "", "reason": "No maintenance action can execute" },
+      "verify": { "status": "local", "method": "Go self-check and normal refusal" }
+    },
+    {
+      "feature_id": "skeleton.database",
+      "inspect": { "status": "local", "method": "Self-check reports configured=false and migrations=0" },
+      "diagnose": { "status": "local", "method": "Manifest and exit-code errors" },
+      "configure": { "status": "local", "method": "Version remains explicitly unselected" },
+      "repair_reset": { "status": "not_applicable", "method": "", "reason": "No database or durable record exists" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "No database, connection, record, or migration exists in Task 2" },
+      "authorization": { "status": "local", "method": "No driver, credential, network, or query path" },
+      "audit": { "status": "not_applicable", "method": "", "reason": "No migration or data action exists" },
+      "verify": { "status": "local", "method": "Go self-check confirms no connection attempt" }
+    },
+    {
+      "feature_id": "skeleton.owner_console",
+      "inspect": { "status": "local", "method": "Public 404 and protected source review" },
+      "diagnose": { "status": "local", "method": "Static markup validation and owner-control 404" },
+      "configure": { "status": "not_applicable", "method": "", "reason": "No console deployment, HTTPS origin, RP ID, owner identity, or runtime configuration exists" },
+      "repair_reset": { "status": "not_applicable", "method": "", "reason": "No deployed console or user state exists" },
+      "phone_ui": { "status": "not_applicable", "method": "", "reason": "No console is deployed to an iPhone and no owner identity exists in Task 2; only responsive source is reviewed" },
+      "authorization": { "status": "local", "method": "Owner-control serves no protected asset or menu" },
+      "audit": { "status": "not_applicable", "method": "", "reason": "The source shell performs no request or action" },
+      "verify": { "status": "local", "method": "Protected source is outside client and local route returns 404" }
+    }
+  ]
+}
