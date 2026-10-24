@@ -248,6 +248,13 @@ impl Game {
         true
     }
 
+    /// Whether a map text shows any words yet (for Kiro's desk tool).
+    pub fn debug_text_has_words(&self, text_id: u8) -> bool {
+        let Some(p) = data::text_pointer(&self.rom, &self.ow.map.header, text_id) else { return false };
+        let names = Names { player: &self.player_name, rival: &self.rival_name };
+        TextBox::new(text::decode(&self.rom, p, &names)).has_words()
+    }
+
     /// Jumps straight to a map's first door (for Kiro's desk tool).
     pub fn debug_goto(&mut self, map: u8) -> bool {
         let Some(h) = data::map_header(&self.rom, self.lay, map) else { return false };

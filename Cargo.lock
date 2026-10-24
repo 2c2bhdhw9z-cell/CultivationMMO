@@ -94,6 +94,7 @@ dependencies = [
 name = "retold-core"
 version = "0.1.0"
 dependencies = [
+ "miniz_oxide 0.9.1",
  "sha1_smol",
 ]
 

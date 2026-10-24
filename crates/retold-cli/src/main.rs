@@ -87,6 +87,46 @@ fn main() {
                 game.step(Buttons::empty());
             }
             "shot" => write_png(&game, parts[1], 2),
+            "sweep" => {
+                // Every map: load it, draw it, open every sign's and person's words.
+                let (mut ok, mut bad, mut talk, mut silent) = (0, 0, 0, 0);
+                for m in 0..=255u8 {
+                    if !game.debug_goto(m) {
+                        continue;
+                    }
+                    let texts: Vec<u8> = game
+                        .ow
+                        .map
+                        .objects
+                        .signs
+                        .iter()
+                        .map(|s| s.text)
+                        .chain(game.ow.npcs.iter().map(|n| n.text))
+                        .collect();
+                    for t in texts {
+                        if game.debug_text_has_words(t) {
+                            talk += 1;
+                        } else {
+                            silent += 1;
+                        }
+                    }
+                    let r = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                        for _ in 0..120 {
+                            game.step(Buttons::empty());
+                        }
+                    }));
+                    if r.is_ok() {
+                        ok += 1;
+                    } else {
+                        bad += 1;
+                        println!("map {m} {} panicked", game.map_name());
+                    }
+                    if parts.get(1) == Some(&"png") {
+                        write_png(&game, &format!("/projects/sandbox/.work/shots/map_{m:03}.png"), 1);
+                    }
+                }
+                println!("maps ok {ok}, failed {bad}; texts with words {talk}, not yet {silent}");
+            }
             "tile" => {
                 let (x, y): (i32, i32) = (parts[1].parse().unwrap(), parts[2].parse().unwrap());
                 let m = &game.ow.map;

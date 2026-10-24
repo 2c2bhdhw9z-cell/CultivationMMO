@@ -7,3 +7,4 @@ publish.workspace = true
 
 [dependencies]
 sha1_smol = "1"
+miniz_oxide = "0.9"

@@ -1,6 +1,7 @@
 //! Retold's engine. The classic Pokémon games rebuilt natively from the player's own
 //! cartridge file: we read the game's tables and draw and run everything ourselves.
 
+pub mod archive;
 pub mod gen1;
 pub mod gfx;
 pub mod input;
