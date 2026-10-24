@@ -1,0 +1,14 @@
+# Kiro's checker: plays the real cartridge on cBoy (the owner's own Game Boy core, from the
+# Continuum repo) so Retold's pictures can be compared with the original. Desk-only: it is not
+# part of the app and not in the workspace. Fetch cBoy first with tools/get-cboy.sh.
+[package]
+name = "retold-oracle"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+continuum_gb = { path = "../../.work/continuum/cores/continuum-gb" }
+png = "0.17"
+
+[workspace]

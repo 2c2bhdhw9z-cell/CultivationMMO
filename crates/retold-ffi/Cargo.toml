@@ -1,0 +1,12 @@
+[package]
+name = "retold-ffi"
+description = "The door the iPhone app talks to Retold's engine through."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["staticlib", "rlib"]
+
+[dependencies]
+retold-core = { path = "../retold-core" }

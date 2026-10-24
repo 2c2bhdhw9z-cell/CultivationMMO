@@ -1,0 +1,10 @@
+[package]
+name = "retold-cli"
+description = "Kiro's desk tool: renders Retold scenes to PNG to check them before a build."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+retold-core = { path = "../retold-core" }
+png = "0.17"

@@ -1,0 +1,147 @@
+#!/usr/bin/env python3
+"""Writes crates/retold-core/src/gen1/layout.rs: where Retold finds each table inside the
+Red, Blue and Yellow cartridges, plus the numbers it needs (map ids, tileset ids...).
+
+Only addresses and numbers come out of this; no game data. Inputs are local pret builds:
+
+    tools/gen_gen1_symbols.py <pokered dir> <pokeyellow dir>
+
+Each dir must already be built (`make red blue` / `make yellow`), so the .sym files exist.
+rgbasm (1.0.4) must be on PATH: it evaluates the constants exactly as the game's build did.
+"""
+import os
+import re
+import subprocess
+import sys
+import tempfile
+
+LABELS = [
+    "MapHeaderPointers", "MapHeaderBanks", "Tilesets", "SpriteSheetPointerTable",
+    "WarpTileIDPointers", "DoorTileIDPointers", "WarpTileListPointers",
+    "TilePairCollisionsLand", "TilePairCollisionsWater", "LedgeTiles", "SuperPalettes",
+    "FontGraphics", "TextBoxGraphics", "ToggleableObjectMapPointers", "ToggleableObjectStates",
+    "FlowerTile1", "FlowerTile2", "FlowerTile3",
+]
+
+CONSTS = [
+    "NUM_MAPS", "NUM_CITY_MAPS", "FIRST_ROUTE_MAP", "FIRST_INDOOR_MAP", "LAST_MAP",
+    "PALLET_TOWN", "REDS_HOUSE_2F", "SS_ANNE_3F", "SS_ANNE_BOW", "ROCKET_HIDEOUT_B1F",
+    "ROCKET_HIDEOUT_B2F", "ROCKET_HIDEOUT_B4F", "ROCK_TUNNEL_1F", "CERULEAN_CAVE_2F",
+    "CERULEAN_CAVE_1F", "LORELEIS_ROOM", "BRUNOS_ROOM",
+    "OVERWORLD", "CEMETERY", "CAVERN", "SHIP", "SHIP_PORT", "PLATEAU", "NUM_TILESETS",
+    "PAL_ROUTE", "PAL_PALLET", "PAL_GRAYMON", "PAL_CAVE",
+    "FIRST_STILL_SPRITE", "NUM_SPRITES", "SPRITE_RED",
+]
+
+
+def snake(name):
+    return re.sub(r"(?<!^)(?=[A-Z])", "_", name).replace("I_D", "ID").lower()
+
+
+def read_sym(path):
+    out = {}
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            m = re.match(r"^([0-9a-f]{2}):([0-9a-f]{4}) (\S+)$", line.strip())
+            if m:
+                out[m.group(3)] = (int(m.group(1), 16), int(m.group(2), 16))
+    return out
+
+
+def map_names(repo):
+    names = []
+    with open(os.path.join(repo, "constants/map_constants.asm"), encoding="utf-8") as f:
+        for line in f:
+            m = re.match(r"^\s*map_const\s+(\w+)", line)
+            if m:
+                names.append(m.group(1))
+    return names
+
+
+def evaluate(repo, names):
+    """Ask rgbasm for the value of each constant, with the repo's own includes."""
+    with tempfile.TemporaryDirectory() as tmp:
+        probe = os.path.join(tmp, "probe.asm")
+        with open(probe, "w", encoding="utf-8") as f:
+            f.write('INCLUDE "includes.asm"\n')
+            for n in names:
+                f.write(f'PRINTLN "{n}=", {{d:{n}}}\n')
+        res = subprocess.run(
+            ["rgbasm", "-I", repo + "/", "-o", os.path.join(tmp, "probe.o"), probe],
+            capture_output=True, text=True, cwd=repo,
+        )
+        if res.returncode != 0:
+            sys.exit(f"rgbasm failed in {repo}:\n{res.stderr}")
+    values = {}
+    for line in res.stdout.splitlines():
+        if "=" in line:
+            k, v = line.split("=", 1)
+            v = v.strip()
+            values[k.strip()] = int(v[1:], 16) if v.startswith("$") else int(v)
+    return values
+
+
+def block(version, sym, consts, names):
+    lines = [f"pub static {version}: Layout = Layout {{"]
+    for label in LABELS:
+        if label not in sym:
+            sys.exit(f"{version}: label {label} not found")
+        bank, addr = sym[label]
+        lines.append(f"    {snake(label)}: FarPtr {{ bank: 0x{bank:02x}, addr: 0x{addr:04x} }},")
+    for c in CONSTS:
+        lines.append(f"    {c.lower()}: {consts[c] & 0xff},")
+    lines.append(f"    map_names: &{version}_MAP_NAMES,")
+    lines.append("};")
+    lines.append("")
+    lines.append(f"static {version}_MAP_NAMES: [&str; {len(names)}] = [")
+    for i in range(0, len(names), 4):
+        lines.append("    " + " ".join(f'"{n}",' for n in names[i:i + 4]))
+    lines.append("];")
+    return "\n".join(lines)
+
+
+def main():
+    if len(sys.argv) != 3:
+        sys.exit(__doc__)
+    red_repo, yellow_repo = (os.path.abspath(p) for p in sys.argv[1:])
+    versions = []
+    for version, repo, sym_name in (
+        ("RED", red_repo, "pokered.sym"),
+        ("BLUE", red_repo, "pokeblue.sym"),
+        ("YELLOW", yellow_repo, "pokeyellow.sym"),
+    ):
+        sym = read_sym(os.path.join(repo, sym_name))
+        names = map_names(repo)
+        consts = evaluate(repo, CONSTS + names)
+        ordered = sorted(names, key=lambda n: consts[n])
+        # Map ids run 0..NUM_MAPS-1 with no gaps; check, since everything indexes by id.
+        if [consts[n] for n in ordered] != list(range(len(ordered))):
+            sys.exit(f"{version}: map ids are not 0..n-1")
+        versions.append(block(version, sym, consts, ordered))
+
+    fields = [f"    pub {snake(l)}: FarPtr," for l in LABELS]
+    fields += [f"    pub {c.lower()}: u8," for c in CONSTS]
+    fields.append("    pub map_names: &'static [&'static str],")
+    out = [
+        "// @generated by tools/gen_gen1_symbols.py from local pret builds. Addresses and",
+        "// numbers only: no game data. Do not edit by hand; rerun the script.",
+        "",
+        "use crate::rom::FarPtr;",
+        "",
+        "/// Where each table sits in one cartridge, and the numbers that go with it.",
+        "#[derive(Debug)]",
+        "pub struct Layout {",
+        *fields,
+        "}",
+        "",
+        "\n\n".join(versions),
+        "",
+    ]
+    dest = os.path.join(os.path.dirname(__file__), "..", "crates/retold-core/src/gen1/layout.rs")
+    with open(dest, "w", encoding="utf-8") as f:
+        f.write("\n".join(out))
+    print("wrote", os.path.normpath(dest))
+
+
+if __name__ == "__main__":
+    main()
