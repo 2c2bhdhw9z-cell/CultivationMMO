@@ -1,0 +1,118 @@
+# Builds the iPhone .ipa and publishes it as a GitHub Release named build-<run>-<sha>.
+# A push that touches the engine, the app or this file starts it; a commit with [skip ci] in its
+# message does not. It can also be started by hand. No schedule: builds only run when asked for.
+name: iPhone app
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "crates/**"
+      - "native/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/ios.yml"
+  workflow_dispatch:
+
+# One build at a time; a second push waits instead of cancelling the running one.
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build the engine on Linux first (fails fast and cheap)
+        run: |
+          rustc --version
+          cargo build --workspace --locked --release
+
+  ipa:
+    needs: checks
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Tools
+        run: |
+          xcodebuild -version
+          rustup target add aarch64-apple-ios
+          rustc --version
+          brew install xcodegen
+          xcodegen --version
+
+      - name: Cache the engine build
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ios-cargo-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
+          restore-keys: ios-cargo-${{ runner.os }}-
+
+      - name: Build the .ipa
+        env:
+          RETOLD_BUILD_NUMBER: ${{ github.run_number }}
+        run: ./native/ios/build.sh
+
+      - name: Check the .ipa
+        run: |
+          set -euo pipefail
+          IPA=native/ios/build/Retold.ipa
+          SIZE=$(stat -f%z "$IPA")
+          echo "size: $SIZE bytes"
+          [ "$SIZE" -gt 100000 ] || { echo "::error::.ipa is far too small"; exit 1; }
+          rm -rf /tmp/ipacheck && mkdir /tmp/ipacheck && unzip -q "$IPA" -d /tmp/ipacheck
+          APP=/tmp/ipacheck/Payload/Retold.app
+          [ -f "$APP/Retold" ] || { echo "::error::no Retold program in the app"; exit 1; }
+          [ -f "$APP/Assets.car" ] || { echo "::error::no app icon (Assets.car)"; exit 1; }
+          lipo -info "$APP/Retold"
+          V=$(plutil -extract CFBundleShortVersionString raw "$APP/Info.plist")
+          B=$(plutil -extract CFBundleVersion raw "$APP/Info.plist")
+          echo "version $V build $B"
+          [ "$B" = "${{ github.run_number }}" ] || { echo "::error::build number is $B, expected ${{ github.run_number }}"; exit 1; }
+          plutil -extract UILaunchScreen json -o - "$APP/Info.plist" >/dev/null || { echo "::error::no launch screen key; the app would not fill the screen"; exit 1; }
+          for lib in $(otool -L "$APP/Retold" | awk '/@rpath\//{print $1}' | sed 's#@rpath/##'); do
+            [ -e "$APP/Frameworks/$lib" ] || { echo "::error::links $lib but it is not inside the app"; exit 1; }
+          done
+          echo "ipa checked"
+
+      - name: Keep the .ipa with this run
+        uses: actions/upload-artifact@v7
+        with:
+          name: Retold-ipa-${{ github.run_number }}
+          path: native/ios/build/Retold.ipa
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish the .ipa as a Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="build-${{ github.run_number }}-$(echo '${{ github.sha }}' | cut -c1-7)"
+          cp native/ios/build/Retold.ipa "native/ios/build/Retold-${{ github.run_number }}.ipa"
+          cat > /tmp/notes.md <<'EOF'
+          **Retold**: the classic Pokémon games rebuilt natively for iPhone. No game is included:
+          add your own cartridge file in the app. Sign `Retold.ipa` with your sideloading app.
+          EOF
+          printf '\nBuilt from %s.\n' "${{ github.sha }}" >> /tmp/notes.md
+          for attempt in 1 2 3 4 5; do
+            if gh release view "$TAG" >/dev/null 2>&1; then
+              gh release upload "$TAG" native/ios/build/Retold.ipa "native/ios/build/Retold-${{ github.run_number }}.ipa" --clobber && break
+            elif gh release create "$TAG" native/ios/build/Retold.ipa "native/ios/build/Retold-${{ github.run_number }}.ipa" \
+                --target "${{ github.sha }}" --title "Retold build ${{ github.run_number }}" --notes-file /tmp/notes.md; then
+              break
+            fi
+            [ "$attempt" -lt 5 ] || { echo "::error::could not publish the release"; exit 1; }
+            sleep $((attempt * 15))
+          done
+          echo "released $TAG"

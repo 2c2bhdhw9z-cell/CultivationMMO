@@ -20,3 +20,6 @@ native/ios/*.xcodeproj/
 /.work/
 *.png.tmp
 .DS_Store
+
+# Generated on the build Mac
+native/ios/Info.plist
