@@ -1,58 +1,22 @@
-# Godot generated files
-.godot/
+# Never commit game files or saves
+*.gb
+*.gbc
+*.gba
+*.sav
+*.sym
+*.map
+*.zip
+*.7z
 
-# Build and export output
-build/
-exports/
-dist/
+# Build output
+/target/
+native/ios/build/
+native/ios/*.xcodeproj/
 *.ipa
 *.xcarchive
 *.dSYM
 
-# Local environment and credentials
-.env
-.env.*
-!.env.example
-.godot/export_credentials.cfg
-export_credentials.cfg
-*.p12
-*.pfx
-*.p8
-*.pem
-*.key
-*.cer
-*.mobileprovision
-*.provisionprofile
-*.keystore
-*.jks
-
-# Local secret/config directories
-secrets/
-.private/
-credentials/
-
-# Logs and operating-system files
-*.log
+# Local scratch
+/.work/
+*.png.tmp
 .DS_Store
-Thumbs.db
-
-# Go generated output
-server/bin/
-server/coverage/
-*.test
-coverage.out
-
-# Editors
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Local databases and player data
-*.sqlite
-*.sqlite3
-local-data/
-player-data/
-
-# Large-file pointers are not approved yet
-.lfsconfig
