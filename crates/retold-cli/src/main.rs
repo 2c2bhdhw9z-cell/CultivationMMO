@@ -108,6 +108,9 @@ fn main() {
                             talk += 1;
                         } else {
                             silent += 1;
+                            if parts.get(1) == Some(&"why") {
+                                println!("silent: map {m} {} text {t}: {}", game.map_name(), game.debug_text_start(t));
+                            }
                         }
                     }
                     let r = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {

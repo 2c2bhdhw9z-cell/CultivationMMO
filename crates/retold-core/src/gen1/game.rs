@@ -255,6 +255,14 @@ impl Game {
         TextBox::new(text::decode(&self.rom, p, &names)).has_words()
     }
 
+    /// The first bytes of a map text, for working out why it shows nothing (desk tool).
+    pub fn debug_text_start(&self, text_id: u8) -> String {
+        match data::text_pointer(&self.rom, &self.ow.map.header, text_id) {
+            Some(p) => format!("{:02x}:{:04x} {:02x?}", p.bank, p.addr, self.rom.bytes(p, 8)),
+            None => "no pointer".into(),
+        }
+    }
+
     /// Jumps straight to a map's first door (for Kiro's desk tool).
     pub fn debug_goto(&mut self, map: u8) -> bool {
         let Some(h) = data::map_header(&self.rom, self.lay, map) else { return false };
